@@ -29,7 +29,7 @@ const HomePage = () => {
   ];
 
   const fetchLatestBlogs = ({ page = 1 }) => {
-    const serverDomain = import.meta.env.VITE_SERVER_DOMAIN || "http://localhost:3000";
+    const serverDomain = import.meta.env.VITE_SERVER_DOMAIN || "https://connectbackend.llp.trizenventures.com";
     axios
       .post(serverDomain + "/latest-blogs", {
         page,
@@ -50,7 +50,7 @@ const HomePage = () => {
   };
 
   const fetchBlogsByCategory = ({ page = 1 }) => {
-    const serverDomain = import.meta.env.VITE_SERVER_DOMAIN || "http://localhost:3000";
+    const serverDomain = import.meta.env.VITE_SERVER_DOMAIN || "https://connectbackend.llp.trizenventures.com";
     axios
       .post(serverDomain + "/search-blogs", {
         tag: pageState,
@@ -72,7 +72,7 @@ const HomePage = () => {
   };
 
   const fetchTrendingBlogs = () => {
-    const serverDomain = import.meta.env.VITE_SERVER_DOMAIN || "http://localhost:3000";
+    const serverDomain = import.meta.env.VITE_SERVER_DOMAIN || "https://connectbackend.llp.trizenventures.com";
     axios
       .get(serverDomain + "/trending-blogs")
       .then(({ data }) => {

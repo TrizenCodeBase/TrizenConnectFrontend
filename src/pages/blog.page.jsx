@@ -4,6 +4,7 @@ import Loader from "../components/loader.component";
 import PageNotFound from "./404.page";
 import BlogPostCard from "../components/blog-post.component";
 import axios from "axios";
+import EditorJsRenderer from "editorjs-react-renderer";
 
 const BlogPage = () => {
   const { id } = useParams();
@@ -17,7 +18,7 @@ const BlogPage = () => {
     setBlog(null);
     axios
       .get(
-        (import.meta.env.VITE_SERVER_DOMAIN || "http://localhost:3000") +
+        (import.meta.env.VITE_SERVER_DOMAIN || "https://connectbackend.llp.trizenventures.com") +
           "/blog/" +
           id
       )
@@ -39,8 +40,6 @@ const BlogPage = () => {
   if (error === "notfound") return <PageNotFound />;
   if (error) return <div className="text-center text-red-500">Failed to load blog.</div>;
   if (!blog || !blog.blog_id) return null;
-
-  console.log("Blog fetched for display:", blog);
 
   // Estimate read time (simple: 200 words/min)
   const getReadTime = () => {
@@ -87,46 +86,9 @@ const BlogPage = () => {
         <button className="ml-4 px-4 py-1 border border-gray-300 rounded-full text-lg md:text-xl font-medium hover:bg-gray-100 transition">Follow</button>
       </div>
       {/* Blog Content */}
-      <div className="prose max-w-none text-gray-900 text-left" style={{ fontSize: '2.25rem', fontFamily: 'serif' }}>
-        {blog.content && Array.isArray(blog.content.blocks) && blog.content.blocks.length > 0 ? (
-          blog.content.blocks.map((block, idx) => {
-            switch (block.type) {
-              case "paragraph":
-                return <p style={{ fontSize: '1.55rem' }} key={idx} dangerouslySetInnerHTML={{ __html: block.data.text }} />;
-              case "header": {
-                const Tag = `h${block.data.level}`;
-                return <Tag key={idx} dangerouslySetInnerHTML={{ __html: block.data.text }} />;
-              }
-              case "list":
-                if (block.data.style === "ordered") {
-                  return <ol key={idx}>{block.data.items.map((item, i) => <li key={i} dangerouslySetInnerHTML={{ __html: item }} />)}</ol>;
-                } else {
-                  return <ul key={idx}>{block.data.items.map((item, i) => <li key={i} dangerouslySetInnerHTML={{ __html: item }} />)}</ul>;
-                }
-              case "image":
-                return (
-                  <div key={idx} className="my-8 flex flex-col items-center">
-                    <img src={block.data.file?.url} alt={block.data.caption || "Blog image"} className="max-w-full h-auto rounded-xl" />
-                    {block.data.caption && <div className="text-center text-base text-gray-500 mt-2">{block.data.caption}</div>}
-                  </div>
-                );
-              case "quote":
-                return (
-                  <blockquote key={idx} className="border-l-4 pl-4 italic my-8 text-gray-600 text-2xl">
-                    <span dangerouslySetInnerHTML={{ __html: block.data.text }} />
-                    {block.data.caption && <footer className="text-right text-xs mt-2">{block.data.caption}</footer>}
-                  </blockquote>
-                );
-              case "code":
-                return <pre key={idx} className="bg-gray-100 p-4 rounded text-xl overflow-x-auto"><code>{block.data.code}</code></pre>;
-              case "delimiter":
-                return <hr key={idx} className="my-12" />;
-              case "raw":
-                return <div key={idx} dangerouslySetInnerHTML={{ __html: block.data.html }} />;
-              default:
-                return null;
-            }
-          })
+      <div className="editorjs-renderer-blocks">
+        {blog.content && blog.content.blocks && blog.content.blocks.length > 0 ? (
+          <EditorJsRenderer data={blog.content} />
         ) : (
           <p>No content available.</p>
         )}

@@ -124,3 +124,29 @@
 .cdx-settings-button[data-tune='stretched'] {
   display: none;
 }
+
+/* Editor.js Renderer Custom Styles for Blog Content */
+.editorjs-renderer-blocks {
+  font-size: 1.45rem;
+  line-height: 1.7;
+  font-family: serif;
+}
+.editorjs-renderer-blocks p {
+  font-size: 1.75rem;
+  margin-bottom: 1.5em;
+}
+.editorjs-renderer-blocks li {
+  font-size: 1.75rem;
+}
+.editorjs-renderer-blocks h1,
+.editorjs-renderer-blocks h2,
+.editorjs-renderer-blocks h3 {
+  font-size: 2.6rem;
+  font-weight: bold;
+  margin-top: 1.5em;
+  margin-bottom: 0.7em;
+}
+.editorjs-renderer-blocks pre,
+.editorjs-renderer-blocks code {
+  font-size: 1.5rem;
+}

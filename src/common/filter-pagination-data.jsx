@@ -14,7 +14,7 @@ export const filterPaginationData = async ({
     if(state !== null && !create_new_arr){
         obj = {...state, results: [...state.results, ...data], page: page}
     }else{
-       const serverDomain = import.meta.env.VITE_SERVER_DOMAIN || "http://localhost:3000";
+       const serverDomain = import.meta.env.VITE_SERVER_DOMAIN || "https://connectbackend.llp.trizenventures.com";
        await axios.post(serverDomain + countRoute, data_to_send)
         .then(({data:{totalDocs}})=>{
             obj = {results: data, page: 1, totalDocs}
