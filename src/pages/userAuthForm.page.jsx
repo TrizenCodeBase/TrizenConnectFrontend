@@ -194,9 +194,10 @@ const UserAuthForm = ({ type }) => {
 
   console.log(access_token);
 
+  const serverDomain = import.meta.env.VITE_SERVER_DOMAIN || "https://connectbackend.llp.trizenventures.com";
   const userAuthThroughServer = async (serverRoute, formData) => {
     axios
-      .post(import.meta.env.VITE_SERVER_DOMAIN + serverRoute, formData)
+      .post(serverDomain + serverRoute, formData)
       .then(({ data }) => {
         storeInSession("user", JSON.stringify(data));
         setUserAuth(data);
