@@ -4,6 +4,7 @@ import InputBox from "../components/input.component";
 import { toast, Toaster } from "react-hot-toast";
 import { UserContext } from "../App";
 import axios from "axios";
+import { config } from "../config/environment.js";
 
 const ChangePassword = () => {
     let { userAuth: { access_token } } = useContext(UserContext);
@@ -35,7 +36,7 @@ const ChangePassword = () => {
 
         let loadingToast = toast.loading("Updating...");
 
-        axios.post(import.meta.env.VITE_SERVER_DOMAIN + "/change-password", formData, {
+        axios.post(config.serverDomain + "/change-password", formData, {
             headers: {
                 'Authorization': `Bearer ${access_token}`
             }

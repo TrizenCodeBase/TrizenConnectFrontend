@@ -9,6 +9,7 @@ import NoDataMessage from "../components/nodata.component";
 import AnimationWrapper from "../common/page-animation";
 import ManagePublishedBlogCard from "../components/manage-blogcard.component";
 import LoadMoreDataBtn from "../components/load-more.component";
+import { config } from "../config/environment.js";
 
 const ManageBlogs = () => {
 
@@ -20,7 +21,7 @@ const ManageBlogs = () => {
 
     const getBlogs = ({ page, draft, deletedDocCount = 0 }) => {
         
-        axios.post(import.meta.env.VITE_SERVER_DOMAIN + "/user-written-blogs", {
+        axios.post(config.serverDomain + "/user-written-blogs", {
             page, draft, query, deletedDocCount
         }, {
             headers: {

@@ -186,6 +186,7 @@ import { useContext, useEffect } from "react";
 import { UserContext } from "../App";
 import { authWithGoogle } from "../common/firebase";
 import { getAuth, getRedirectResult } from "firebase/auth";
+import { config } from "../config/environment.js";
 
 const UserAuthForm = ({ type }) => {
   let {
@@ -195,7 +196,7 @@ const UserAuthForm = ({ type }) => {
 
   console.log(access_token);
 
-  const serverDomain = import.meta.env.VITE_SERVER_DOMAIN || "https://connectbackend.llp.trizenventures.com/";
+  const serverDomain = config.serverDomain;
 
   // Check for Google redirect result on component mount
   useEffect(() => {
