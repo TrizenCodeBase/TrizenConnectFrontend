@@ -37,15 +37,23 @@ import { initializeApp } from "firebase/app";
 import { GoogleAuthProvider } from "firebase/auth";
 import { getAuth, signInWithPopup, signInWithRedirect, getRedirectResult } from "firebase/auth";
 
+// Debug environment variables
+console.log("Environment variables check:");
+console.log("VITE_FIREBASE_API_KEY:", import.meta.env.VITE_FIREBASE_API_KEY ? "✅ Present" : "❌ Missing");
+console.log("VITE_FIREBASE_PROJECT_ID:", import.meta.env.VITE_FIREBASE_PROJECT_ID ? "✅ Present" : "❌ Missing");
+console.log("Build mode:", import.meta.env.MODE);
+
 const firebaseConfig = {
-  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
-  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
-  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
-  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
-  appId: import.meta.env.VITE_FIREBASE_APP_ID,
-  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY || "AIzaSyAyUdst9s9HUcKLpGMNG9NjGPCMyhymUeA",
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN || "connect-trizen.firebaseapp.com",
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID || "connect-trizen",
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET || "connect-trizen.firebasestorage.app",
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID || "910313173978",
+  appId: import.meta.env.VITE_FIREBASE_APP_ID || "1:910313173978:web:ad9c16346dbfc1bbed86e3",
+  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID || "G-HJ5DCBY76K"
 };
+
+console.log("Firebase config being used:", firebaseConfig);
 
 const app = initializeApp(firebaseConfig);
 
