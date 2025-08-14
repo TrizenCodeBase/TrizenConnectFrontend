@@ -35,15 +35,16 @@
 // }
 import { initializeApp } from "firebase/app";
 import { GoogleAuthProvider } from "firebase/auth";
-import { getAuth, signInWithPopup } from "firebase/auth";
+import { getAuth, signInWithPopup, signInWithRedirect, getRedirectResult } from "firebase/auth";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyA_w6MvySSONkvhTkPPTXF_urDQtYEISRo",
-  authDomain: "react-js-blog-website-d0bde.firebaseapp.com",
-  projectId: "react-js-blog-website-d0bde",
-  storageBucket: "react-js-blog-website-d0bde.appspot.com",
-  messagingSenderId: "1069946242399",
-  appId: "1:1069946242399:web:673ae1d13594d38d74e2ea",
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
+  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID
 };
 
 const app = initializeApp(firebaseConfig);
@@ -55,15 +56,46 @@ const provider = new GoogleAuthProvider();
 const auth = getAuth();
 
 export const authWithGoogle = async () => {
-  let user = null;
+  try {
+    // First check if there's a redirect result from previous redirect attempt
+    const redirectResult = await getRedirectResult(auth);
+    if (redirectResult && redirectResult.user) {
+      const idToken = await redirectResult.user.getIdToken();
+      console.log("Google auth successful via redirect for user:", redirectResult.user.email);
+      return {
+        ...redirectResult.user,
+        accessToken: idToken
+      };
+    }
 
-  await signInWithPopup(auth, provider)
-    .then((result) => {
-      user = result.user;
-    })
-    .catch((error) => {
-      console.log(error.message);
-    });
-
-  return user;
+    // Try popup first
+    const result = await signInWithPopup(auth, provider);
+    
+    // Get the ID token for backend verification
+    const idToken = await result.user.getIdToken();
+    
+    console.log("Google auth successful via popup for user:", result.user.email);
+    
+    // Return user object with the idToken
+    return {
+      ...result.user,
+      accessToken: idToken // Backend expects accessToken property
+    };
+  } catch (error) {
+    console.error("Firebase auth error:", error);
+    console.error("Error code:", error.code);
+    console.error("Error message:", error.message);
+    
+    // If popup is blocked or Cross-Origin-Opener-Policy issue, try redirect
+    if (error.code === 'auth/popup-blocked' || 
+        error.message.includes('Cross-Origin-Opener-Policy')) {
+      console.log("Popup blocked or COOP issue, falling back to redirect...");
+      await signInWithRedirect(auth, provider);
+      // The redirect will reload the page, so this won't return
+      return null;
+    }
+    
+    // Throw the error so it can be handled in the calling component
+    throw error;
+  }
 };

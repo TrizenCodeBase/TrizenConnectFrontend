@@ -182,9 +182,10 @@ import AnimationWrapper from "../common/page-animation";
 import { Toaster, toast } from "react-hot-toast";
 import axios from "axios";
 import { storeInSession } from "../common/session";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { UserContext } from "../App";
 import { authWithGoogle } from "../common/firebase";
+import { getAuth, getRedirectResult } from "firebase/auth";
 
 const UserAuthForm = ({ type }) => {
   let {
@@ -194,16 +195,50 @@ const UserAuthForm = ({ type }) => {
 
   console.log(access_token);
 
-  const serverDomain = import.meta.env.VITE_SERVER_DOMAIN || "https://connectbackend.llp.trizenventures.com";
+  const serverDomain = import.meta.env.VITE_SERVER_DOMAIN || "https://connectbackend.llp.trizenventures.com/";
+
+  // Check for Google redirect result on component mount
+  useEffect(() => {
+    const handleRedirectResult = async () => {
+      try {
+        const auth = getAuth();
+        const result = await getRedirectResult(auth);
+        if (result && result.user) {
+          const idToken = await result.user.getIdToken();
+          console.log("Processing redirect result for user:", result.user.email);
+          
+          let serverRoute = "/google-auth";
+          let formData = {
+            access_token: idToken,
+          };
+          userAuthThroughServer(serverRoute, formData);
+        }
+      } catch (error) {
+        console.error("Redirect result error:", error);
+        toast.error("Authentication failed. Please try again.");
+      }
+    };
+
+    handleRedirectResult();
+  }, []);
   const userAuthThroughServer = async (serverRoute, formData) => {
+    console.log("Making request to:", serverDomain + serverRoute);
+    console.log("With data:", formData);
+    
     axios
       .post(serverDomain + serverRoute, formData)
       .then(({ data }) => {
+        console.log("Server response:", data);
         storeInSession("user", JSON.stringify(data));
         setUserAuth(data);
       })
       .catch(({ response }) => {
-        toast.error(response.data.error);
+        console.error("Server error:", response);
+        if (response && response.data && response.data.error) {
+          toast.error(response.data.error);
+        } else {
+          toast.error("Server error occurred. Please try again.");
+        }
       });
   };
 
@@ -254,18 +289,35 @@ const UserAuthForm = ({ type }) => {
 
   const handleGoogleAuth = (e) => {
     e.preventDefault();
-    authWithGoogle().then((user) => {
-      
-      let serverRoute = "/google-auth";
-      let formData = {
-        access_token: user.accessToken,
-      };
-      userAuthThroughServer(serverRoute, formData);
-    }).catch(error => {
-      toast.error('trouble login through google');
-      return console.log(error);
-    });
-
+    
+    authWithGoogle()
+      .then((user) => {
+        if (user && user.accessToken) {
+          let serverRoute = "/google-auth";
+          let formData = {
+            access_token: user.accessToken,
+          };
+          userAuthThroughServer(serverRoute, formData);
+        } else if (user === null) {
+          // Redirect case - the page will reload, so this is expected
+          console.log('Redirecting to Google for authentication...');
+        } else {
+          toast.error('Failed to get authentication token from Google');
+        }
+      })
+      .catch(error => {
+        console.error('Google auth error:', error);
+        
+        if (error.code === 'auth/unauthorized-domain') {
+          toast.error('This domain is not authorized for Google authentication. Please contact the administrator.');
+        } else if (error.code === 'auth/popup-closed-by-user') {
+          toast.error('Authentication was cancelled');
+        } else if (error.code === 'auth/popup-blocked') {
+          toast.error('Popup was blocked. Trying redirect method...');
+        } else {
+          toast.error('Trouble logging in with Google. Please try again.');
+        }
+      });
   }
 
 
