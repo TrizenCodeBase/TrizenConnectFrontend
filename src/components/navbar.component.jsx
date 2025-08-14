@@ -131,8 +131,8 @@ const Navbar = () => {
   return (
     <>
       <nav className="navbar">
-        <Link to="/" className="flex-none w-10">
-          <img src={Logo} className="w-full" />
+        <Link to="/" className="flex-none w-16">
+          <img src={Logo} className="w-full h-auto object-contain" />
         </Link>
 
         <div
