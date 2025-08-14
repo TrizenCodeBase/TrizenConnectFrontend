@@ -9,6 +9,7 @@ import LoadMoreDataBtn from "../components/load-more.component";
 import axios from "axios";
 import { filterPaginationData } from "../common/filter-pagination-data";
 import UserCard from "../components/usercard.component";
+import { config } from "../config/environment.js";
 
 const SearchPage = () => {
   let { query } = useParams();
@@ -18,7 +19,7 @@ const SearchPage = () => {
 
   const searchBlogs = ({ page = 1, create_new_arr = false }) => {
     axios
-      .post(import.meta.env.VITE_SERVER_DOMAIN + "/search-blogs", {
+      .post(config.serverDomain + "/search-blogs", {
         query,
         page,
       })
@@ -40,7 +41,7 @@ const SearchPage = () => {
 
   const searchUsers = () => {
     axios
-      .post(import.meta.env.VITE_SERVER_DOMAIN + "/search-users", {
+      .post(config.serverDomain + "/search-users", {
         query,
       })
       .then(({ data: { users } }) => {

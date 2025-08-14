@@ -13,6 +13,7 @@ import Tag from "./tags.component";
 import axios from "axios";
 import { UserContext } from "../App";
 import { useNavigate } from "react-router-dom";
+import { config } from "../config/environment.js";
 
 const PublishForm = () => {
   let charcterLimit = 200;
@@ -77,7 +78,7 @@ const PublishForm = () => {
       draft: false
     }
 
-    axios.post(import.meta.env.VITE_SERVER_DOMAIN + "/create-blog", blogObj,{
+    axios.post(config.serverDomain + "/create-blog", blogObj,{
       headers: {
         'Authorization': `Bearer ${access_token}`
       }

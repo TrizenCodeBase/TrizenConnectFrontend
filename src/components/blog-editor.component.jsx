@@ -139,6 +139,7 @@ import EditorJS from "@editorjs/editorjs";
 import { tools } from "./tools.component";
 import axios from "axios";
 import { UserContext } from "../App";
+import { config } from "../config/environment.js";
 
 const BlogEditor = () => {
   let {
@@ -259,7 +260,7 @@ const BlogEditor = () => {
         };
 
         axios
-          .post(import.meta.env.VITE_SERVER_DOMAIN + "/create-blog", blogObj, {
+          .post(config.serverDomain + "/create-blog", blogObj, {
             headers: {
               Authorization: `Bearer ${access_token}`,
             },

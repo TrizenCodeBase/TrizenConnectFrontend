@@ -9,6 +9,7 @@ import { activeTab } from "../components/inpage-navigation.component";
 import NoDataMessage from "../components/nodata.component";
 import { filterPaginationData } from "../common/filter-pagination-data";
 import LoadMoreDataBtn from "../components/load-more.component";
+import { config } from "../config/environment.js";
 
 const HomePage = () => {
   let [blogs, setBlogs] = useState(null);
@@ -29,10 +30,9 @@ const HomePage = () => {
   ];
 
   const fetchLatestBlogs = ({ page = 1 }) => {
-    const serverDomain = import.meta.env.VITE_SERVER_DOMAIN || "https://connectbackend.llp.trizenventures.com";
-    console.log("Using server domain:", serverDomain);
+    console.log("Using server domain:", config.serverDomain);
     axios
-      .post(serverDomain + "/latest-blogs", {
+      .post(config.serverDomain + "/latest-blogs", {
         page,
       })
       .then(async ({ data }) => {
@@ -51,9 +51,8 @@ const HomePage = () => {
   };
 
   const fetchBlogsByCategory = ({ page = 1 }) => {
-    const serverDomain = import.meta.env.VITE_SERVER_DOMAIN || "https://connectbackend.llp.trizenventures.com";
     axios
-      .post(serverDomain + "/search-blogs", {
+      .post(config.serverDomain + "/search-blogs", {
         tag: pageState,
         page,
       })
@@ -73,10 +72,9 @@ const HomePage = () => {
   };
 
   const fetchTrendingBlogs = () => {
-    const serverDomain = import.meta.env.VITE_SERVER_DOMAIN || "https://connectbackend.llp.trizenventures.com";
-    console.log("Using server domain for trending:", serverDomain);
+    console.log("Using server domain for trending:", config.serverDomain);
     axios
-      .get(serverDomain + "/trending-blogs")
+      .get(config.serverDomain + "/trending-blogs")
       .then(({ data }) => {
         console.log("Trending blogs data:", data.blogs);
         setTrendingBlogs(data.blogs);

@@ -12,6 +12,8 @@ import InPageNavigation from "../components/inpage-navigation.component";
 import NoDataMessage from "../components/nodata.component";
 import LoadMoreDataBtn from "../components/load-more.component";
 import PageNotFound from "./404.page";
+import FollowButton from "../components/follow-button.component";
+import { config } from "../config/environment.js";
 
 export const profileDataStucture = {
   personal_info: {
@@ -49,7 +51,7 @@ const ProfilePage = () => {
 
   const fetchProfile = async () => {
     axios
-      .post(import.meta.env.VITE_SERVER_DOMAIN + "/get-profile", {
+      .post(config.serverDomain + "/get-profile", {
         username: profileId,
       })
       .then(({ data: user }) => {
@@ -70,7 +72,7 @@ const ProfilePage = () => {
     user_id = user_id === undefined ? blogs.user_id : user_id;
 
     axios
-      .post(import.meta.env.VITE_SERVER_DOMAIN + "/search-blogs", {
+      .post(config.serverDomain + "/search-blogs", {
         author: user_id,
         page,
       })
@@ -137,7 +139,10 @@ const ProfilePage = () => {
                   Edit Profile
                 </Link>
               ) : (
-                ""
+                <FollowButton 
+                  authorId={profile._id} 
+                  authorUsername={profile.personal_info.username} 
+                />
               )}
             </div>
 

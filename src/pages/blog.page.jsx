@@ -1,30 +1,54 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Loader from "../components/loader.component";
 import PageNotFound from "./404.page";
 import BlogPostCard from "../components/blog-post.component";
 import axios from "axios";
 import EditorJsRenderer from "editorjs-react-renderer";
+import BlogInteraction from "../components/blog-interaction.component";
+import CommentsContainer, { fetchComments } from "../components/comments.component";
+import { UserContext } from "../App";
+import AnimationWrapper from "../common/page-animation";
+import FollowButton from "../components/follow-button.component";
+import { config } from "../config/environment.js";
 
 const BlogPage = () => {
   const { id } = useParams();
   const [blog, setBlog] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [commentsWrapper, setCommentsWrapper] = useState(false);
+  const [totalParentCommentsLoaded, setTotalParentCommentsLoaded] = useState(0);
+
+  let { userAuth: { access_token } } = useContext(UserContext);
 
   useEffect(() => {
     setLoading(true);
     setError(null);
     setBlog(null);
     axios
-      .get(
-        (import.meta.env.VITE_SERVER_DOMAIN || "https://connectbackend.llp.trizenventures.com") +
-          "/blog/" +
-          id
-      )
-      .then((res) => {
-        setBlog(res.data.blog);
-        setLoading(false);
+      .get(config.serverDomain + "/blog/" + id)
+      .then(async (res) => {
+        try {
+          const blogData = res.data.blog;
+          
+          // Initialize comments structure
+          const commentsData = await fetchComments({ 
+            blog_id: blogData._id, 
+            setParentCommentCountFun: setTotalParentCommentsLoaded 
+          });
+
+          // Ensure proper structure
+          blogData.comments = commentsData || { results: [] };
+          
+          setBlog(blogData);
+          setLoading(false);
+        } catch (commentError) {
+          console.error("Error fetching comments:", commentError);
+          // Still set the blog even if comments fail
+          setBlog({ ...res.data.blog, comments: { results: [] } });
+          setLoading(false);
+        }
       })
       .catch((err) => {
         setError(
@@ -83,7 +107,10 @@ const BlogPage = () => {
         <span>{blog.publishedAt ? new Date(blog.publishedAt).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' }) : ''}</span>
         <span className="hidden md:inline">•</span>
         <span>{getReadTime()}</span>
-        <button className="ml-4 px-4 py-1 border border-gray-300 rounded-full text-lg md:text-xl font-medium hover:bg-gray-100 transition">Follow</button>
+        <FollowButton 
+          authorId={blog.author?._id} 
+          authorUsername={blog.author?.personal_info?.username} 
+        />
       </div>
       {/* Blog Content */}
       <div className="editorjs-renderer-blocks">
@@ -93,6 +120,24 @@ const BlogPage = () => {
           <p>No content available.</p>
         )}
       </div>
+
+      {/* Blog Interactions */}
+      <AnimationWrapper>
+        <BlogInteraction 
+          blog={blog} 
+          setBlog={setBlog} 
+          commentsWrapper={commentsWrapper}
+          setCommentsWrapper={setCommentsWrapper}
+        />
+      </AnimationWrapper>
+
+      {/* Comments Section */}
+      <CommentsContainer 
+        blog={blog} 
+        setBlog={setBlog} 
+        commentsWrapper={commentsWrapper} 
+        setCommentsWrapper={setCommentsWrapper} 
+      />
     </div>
   );
 };

@@ -1,4 +1,5 @@
 import axios from "axios";
+import { config } from "../config/environment.js";
 
 export const filterPaginationData = async ({
   create_new_arr = false,
@@ -14,8 +15,7 @@ export const filterPaginationData = async ({
     if(state !== null && !create_new_arr){
         obj = {...state, results: [...state.results, ...data], page: page}
     }else{
-       const serverDomain = import.meta.env.VITE_SERVER_DOMAIN || "https://connectbackend.llp.trizenventures.com";
-       await axios.post(serverDomain + countRoute, data_to_send)
+       await axios.post(config.serverDomain + countRoute, data_to_send)
         .then(({data:{totalDocs}})=>{
             obj = {results: data, page: 1, totalDocs}
         })

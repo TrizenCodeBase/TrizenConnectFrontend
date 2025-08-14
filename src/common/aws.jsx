@@ -20,12 +20,13 @@
 //     return imgUrl;
 // }
 import axios from 'axios';
+import { config } from "../config/environment.js";
 
 export const uploadImage = async (img) =>{
     let imgUrl = null;
     
     try {
-        const {data:{uploadURL}} = await axios.get(import.meta.env.VITE_SERVER_DOMAIN + '/get-upload-url');
+        const {data:{uploadURL}} = await axios.get(config.serverDomain + '/get-upload-url');
         
         await axios({
             method: 'PUT',

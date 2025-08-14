@@ -4,6 +4,7 @@ import { useContext, useState } from "react";
 import { UserContext } from "../App";
 import axios from "axios";
 import { toast } from "react-hot-toast";
+import { config } from "../config/environment.js";
 
 const ManagePublishedBlogCard = ({ blog }) => {
 
@@ -81,7 +82,7 @@ const deleteBlog = (blog, access_token, target) => {
 
     target.setAttribute("disabled", true);
 
-    axios.post(import.meta.env.VITE_SERVER_DOMAIN + "/delete-blog", { blog_id }, {
+    axios.post(config.serverDomain + "/delete-blog", { blog_id }, {
         headers: {
             'Authorization': `Bearer ${access_token}`
         }
