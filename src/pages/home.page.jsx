@@ -29,7 +29,7 @@ const HomePage = () => {
   ];
 
   const fetchLatestBlogs = ({ page = 1 }) => {
-    const serverDomain = import.meta.env.VITE_SERVER_DOMAIN || "http://localhost:3000";
+    const serverDomain = import.meta.env.VITE_SERVER_DOMAIN || "https://connectbackend.llp.trizenventures.com";
     console.log("Using server domain:", serverDomain);
     axios
       .post(serverDomain + "/latest-blogs", {
@@ -73,7 +73,7 @@ const HomePage = () => {
   };
 
   const fetchTrendingBlogs = () => {
-    const serverDomain = import.meta.env.VITE_SERVER_DOMAIN || "http://localhost:3000";
+    const serverDomain = import.meta.env.VITE_SERVER_DOMAIN || "https://connectbackend.llp.trizenventures.com";
     console.log("Using server domain for trending:", serverDomain);
     axios
       .get(serverDomain + "/trending-blogs")
