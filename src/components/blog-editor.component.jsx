@@ -35,7 +35,63 @@ const BlogEditor = () => {
           holderId: "textEditor",
           data: content,
           tools: tools,
-          placeholder: "Let`s write an awesome story!",
+          placeholder: "Tell your story...",
+          minHeight: 200,
+          logLevel: 'ERROR',
+          autofocus: true,
+          inlineToolbar: ['marker', 'inlineCode'],
+          defaultBlock: 'paragraph',
+          i18n: {
+            messages: {
+              ui: {
+                "blockTunes": {
+                  "toggler": {
+                    "Click to tune": "Click to tune",
+                  }
+                },
+                "toolbar": {
+                  "toolbox": {
+                    "Add": "Add",
+                    "Filter": "Filter",
+                    "Nothing found": "Nothing found"
+                  }
+                }
+              },
+              toolNames: {
+                "Text": "Paragraph",
+                "Heading": "Heading",
+                "heading1": "Title",
+                "heading2": "Heading",
+                "heading3": "Subheading",
+                "heading4": "Heading 4",
+                "heading5": "Heading 5", 
+                "heading6": "Caption",
+                "List": "List",
+                "Quote": "Quote",
+                "Code": "Code",
+                "Delimiter": "Delimiter",
+                "Raw HTML": "Raw HTML",
+                "Table": "Table",
+                "Link": "Link",
+                "Marker": "Marker",
+                "Bold": "Bold",
+                "Italic": "Italic",
+                "InlineCode": "Inline Code",
+                "Image": "Image"
+              },
+              tools: {
+                "header": {
+                  "Header": "Heading",
+                  "heading1": "Heading 1",
+                  "heading2": "Heading 2", 
+                  "heading3": "Heading 3",
+                  "heading4": "Heading 4",
+                  "heading5": "Heading 5",
+                  "heading6": "Heading 6"
+                }
+              }
+            }
+          }
         })
       );
     }

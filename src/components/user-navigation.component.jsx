@@ -81,27 +81,27 @@ const UserNavigationPanel = () => {
       transition={{ duration: 0.2 }}
     >
       <div className="bg-white absolute right-0 border border-grey w-60 duration-200">
-        <Link to="/editor" className="flex gap-2 link md:hidden pl-8 py-4">
-          <i className="fi fi-rr-file-edit"></i>
-          <p>Write</p>
+        <Link to="/editor" className="flex gap-3 items-center text-dark-grey hover:text-black hover:bg-grey/30 pl-8 py-4 text-base font-medium transition-colors duration-200 md:hidden">
+          <i className="fi fi-rr-file-edit text-base"></i>
+          <span>Write</span>
         </Link>
 
-        <Link to={`/user/${userAuth.username}`} className="link pl-8 py-4">
+        <Link to={`/user/${userAuth.username}`} className="block text-dark-grey hover:text-black hover:bg-grey/30 pl-8 py-4 text-base font-medium transition-colors duration-200">
           Profile
         </Link>
 
-        <Link to="/dashboard" className="link pl-8 py-4">
+        <Link to="/dashboard" className="block text-dark-grey hover:text-black hover:bg-grey/30 pl-8 py-4 text-base font-medium transition-colors duration-200">
           Dashboard
         </Link>
 
-        <Link to="/settings/edit-profile" className="link pl-8 py-4">
+        <Link to="/settings/edit-profile" className="block text-dark-grey hover:text-black hover:bg-grey/30 pl-8 py-4 text-base font-medium transition-colors duration-200">
           Settings
         </Link>
 
-        <span className="absolute border-t border-grey w-[100%]"></span>
+        <div className="border-t border-grey my-2"></div>
 
         <button 
-          className="text-left p-4 hover:bg-grey w-full pl-8 py-4" 
+          className="text-left w-full pl-8 py-4 hover:bg-grey/30 transition-colors duration-200 group" 
           onClick={(e) => {
             console.log("Sign out button clicked!");
             e.preventDefault();
@@ -109,8 +109,8 @@ const UserNavigationPanel = () => {
             signOutUser();
           }}
         >
-            <h1 className="font-bold text-xl mg-1">Sign Out</h1>
-            <p className="text-dark-grey">@{userAuth.username}</p>
+            <div className="text-dark-grey group-hover:text-black text-base font-medium mb-1 transition-colors duration-200">Sign Out</div>
+            <div className="text-dark-grey group-hover:text-black text-sm transition-colors duration-200">@{userAuth.username}</div>
         </button>
       </div>
     </AnimationWrapper>

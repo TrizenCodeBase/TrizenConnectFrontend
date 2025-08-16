@@ -64,9 +64,9 @@ const Navbar = () => {
             <i className="fi fi-rr-search text-xl"></i>
           </button>
 
-          <Link to="/editor" className="hidden md:flex gap-2 link">
-            <i className="fi fi-rr-file-edit"></i>
-            <p>Write</p>
+          <Link to="/editor" className="hidden md:flex gap-2 items-center text-dark-grey hover:text-black px-4 py-2 rounded-full hover:bg-grey/30 transition-colors duration-200">
+            <i className="fi fi-rr-file-edit text-base"></i>
+            <span className="text-base font-medium">Write</span>
           </Link>
 
           {access_token ? (

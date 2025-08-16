@@ -78,6 +78,9 @@ export const tools = {
   list: {
     class: List,
     inlineToolbar: true,
+    config: {
+      defaultStyle: 'unordered'
+    }
   },
   image: {
     class: Image,
@@ -90,17 +93,82 @@ export const tools = {
   },
   header: {
     class: Header,
-    inlineToolbar: true,
+    inlineToolbar: ['marker', 'inlineCode'],
     config: {
-      placeholder: "Type Heading....",
-      levels: [1, 2, 3, 4],
+      placeholder: "Heading",
+      levels: [1, 2, 3, 4, 5, 6],
       defaultLevel: 2,
+    },
+    shortcut: 'CMD+SHIFT+H',
+  },
+  heading1: {
+    class: Header,
+    inlineToolbar: ['marker', 'inlineCode'],
+    config: {
+      placeholder: "Heading 1",
+      levels: [1],
+      defaultLevel: 1,
+    },
+  },
+  heading2: {
+    class: Header,
+    inlineToolbar: ['marker', 'inlineCode'],
+    config: {
+      placeholder: "Heading 2", 
+      levels: [2],
+      defaultLevel: 2,
+    },
+  },
+  heading3: {
+    class: Header,
+    inlineToolbar: ['marker', 'inlineCode'],
+    config: {
+      placeholder: "Heading 3",
+      levels: [3], 
+      defaultLevel: 3,
+    },
+  },
+  heading4: {
+    class: Header,
+    inlineToolbar: ['marker', 'inlineCode'],
+    config: {
+      placeholder: "Heading 4",
+      levels: [4],
+      defaultLevel: 4,
+    },
+  },
+  heading5: {
+    class: Header,
+    inlineToolbar: ['marker', 'inlineCode'],
+    config: {
+      placeholder: "Heading 5",
+      levels: [5],
+      defaultLevel: 5,
+    },
+  },
+  heading6: {
+    class: Header,
+    inlineToolbar: ['marker', 'inlineCode'],
+    config: {
+      placeholder: "Heading 6",
+      levels: [6],
+      defaultLevel: 6,
     },
   },
   quote: {
     class: Quote,
-    inlineToolbar: true,
+    inlineToolbar: ['marker', 'inlineCode'],
+    config: {
+      quotePlaceholder: 'Enter a quote',
+      captionPlaceholder: 'Quote\'s author',
+    },
   },
-  marker: Marker,
-  inlineCode: InlineCode,
+  marker: {
+    class: Marker,
+    shortcut: 'CMD+SHIFT+M',
+  },
+  inlineCode: {
+    class: InlineCode,
+    shortcut: 'CMD+SHIFT+C',
+  },
 };

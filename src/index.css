@@ -86,12 +86,41 @@
         @apply text-black border-r-2 border-black pl-6 bg-grey/50 -ml-6 md:rounded-tl-lg md:rounded-bl-lg max-md:border-none;
     }
 
-    #textEditor h2, h2{
-        @apply font-inter text-4xl leading-normal font-bold max-md:text-3xl max-md:leading-snug !important;
+    /* Enhanced heading styles for editor */
+    #textEditor h1, .blog-page-content h1 {
+        @apply font-inter text-5xl leading-tight font-black max-md:text-4xl max-md:leading-snug !important;
+        margin-bottom: 1.5rem;
+        margin-top: 2rem;
     }
 
-    #textEditor h3, h3 {
-        @apply font-inter text-3xl leading-loose max-md:text-2xl max-md:leading-normal !important;
+    #textEditor h2, .blog-page-content h2, h2{
+        @apply font-inter text-4xl leading-normal font-bold max-md:text-3xl max-md:leading-snug !important;
+        margin-bottom: 1rem;
+        margin-top: 2rem;
+    }
+
+    #textEditor h3, .blog-page-content h3, h3 {
+        @apply font-inter text-3xl leading-loose font-bold max-md:text-2xl max-md:leading-normal !important;
+        margin-bottom: 1rem;
+        margin-top: 1.5rem;
+    }
+
+    #textEditor h4, .blog-page-content h4 {
+        @apply font-inter text-2xl leading-normal font-bold max-md:text-xl max-md:leading-snug !important;
+        margin-bottom: 0.75rem;
+        margin-top: 1.5rem;
+    }
+
+    #textEditor h5, .blog-page-content h5 {
+        @apply font-inter text-xl leading-relaxed font-bold max-md:text-xl max-md:leading-normal !important;
+        margin-bottom: 0.75rem;
+        margin-top: 1rem;
+    }
+
+    #textEditor h6, .blog-page-content h6 {
+        @apply font-inter text-xl leading-relaxed font-semibold text-dark-grey max-md:text-base !important;
+        margin-bottom: 0.5rem;
+        margin-top: 1rem;
     }
 
     #textEditor *, .blog-page-content *{
@@ -100,6 +129,428 @@
 
     #textEditor a, .blog-page-content a{
         @apply text-purple underline hover:opacity-50;
+    }
+
+    /* Enhanced editor typography and formatting */
+    #textEditor .ce-block {
+        margin-bottom: 1rem;
+    }
+
+    #textEditor .ce-paragraph {
+        @apply text-xl leading-relaxed font-gelasio text-black;
+        margin-bottom: 1rem;
+    }
+
+    #textEditor .cdx-quote {
+        @apply border-l-4 border-dark-grey bg-grey/20 italic;
+        padding-left: 1.5rem;
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+        margin-top: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+
+    #textEditor .cdx-quote__text {
+        @apply text-2xl leading-relaxed font-gelasio text-black !important;
+        margin-bottom: 0.75rem;
+    }
+
+    #textEditor .cdx-quote__caption {
+        @apply text-base text-dark-grey font-medium !important;
+    }
+
+    #textEditor .cdx-marker {
+        background-color: #fef3c7;
+        @apply rounded;
+        padding: 0 0.25rem;
+    }
+
+    #textEditor .ce-inline-code {
+        @apply bg-grey rounded text-base font-mono border;
+        padding: 0.25rem 0.5rem;
+    }
+
+    #textEditor .cdx-list {
+        padding-left: 1.5rem;
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    #textEditor .cdx-list__item {
+        @apply text-xl leading-relaxed font-gelasio text-black;
+        margin-bottom: 0.5rem;
+    }
+
+    /* Ensure toolbar container is visible */
+    .ce-toolbar {
+        display: flex !important;
+        position: absolute;
+        left: -44px;
+        top: 0;
+        height: 100%;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        z-index: 2;
+    }
+
+    /* Toolbox popup styling */
+    .ce-popover {
+        @apply bg-white border border-grey rounded-lg shadow-lg;
+        z-index: 1000 !important;
+        min-width: 240px;
+        max-height: 400px;
+        overflow-y: auto;
+    }
+
+    .ce-popover__items {
+        @apply p-2;
+    }
+
+    .ce-popover-item {
+        @apply hover:bg-grey/30 transition-colors duration-200 rounded-md p-3;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        cursor: pointer;
+    }
+
+    .ce-popover-item__icon {
+        width: 20px;
+        height: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .ce-popover-item__title {
+        @apply font-medium text-base;
+    }
+
+    /* Individual heading tool styling in dropdown - alternative selectors */
+    .ce-popover-item[data-item-name="heading1"] .ce-popover-item__title,
+    .ce-popover-item[data-tool="heading1"] .ce-popover-item__title {
+        @apply text-3xl font-black;
+    }
+
+    .ce-popover-item[data-item-name="heading2"] .ce-popover-item__title,
+    .ce-popover-item[data-tool="heading2"] .ce-popover-item__title {
+        @apply text-2xl font-bold;
+    }
+
+    .ce-popover-item[data-item-name="heading3"] .ce-popover-item__title,
+    .ce-popover-item[data-tool="heading3"] .ce-popover-item__title {
+        @apply text-xl font-bold;
+    }
+
+    .ce-popover-item[data-item-name="heading4"] .ce-popover-item__title,
+    .ce-popover-item[data-tool="heading4"] .ce-popover-item__title {
+        font-size: 18px;
+        @apply font-bold;
+    }
+
+    .ce-popover-item[data-item-name="heading5"] .ce-popover-item__title,
+    .ce-popover-item[data-tool="heading5"] .ce-popover-item__title {
+        @apply text-base font-bold;
+    }
+
+    .ce-popover-item[data-item-name="heading6"] .ce-popover-item__title,
+    .ce-popover-item[data-tool="heading6"] .ce-popover-item__title {
+        @apply text-sm font-semibold text-dark-grey;
+    }
+
+    /* Add level indicators before heading titles - multiple selectors */
+    .ce-popover-item[data-item-name="heading1"] .ce-popover-item__title::before,
+    .ce-popover-item[data-tool="heading1"] .ce-popover-item__title::before {
+        content: "H1 ";
+        @apply text-sm font-bold text-black mr-2;
+        display: inline-block;
+        min-width: 30px;
+    }
+
+    .ce-popover-item[data-item-name="heading2"] .ce-popover-item__title::before,
+    .ce-popover-item[data-tool="heading2"] .ce-popover-item__title::before {
+        content: "H2 ";
+        @apply text-sm font-bold text-black mr-2;
+        display: inline-block;
+        min-width: 30px;
+    }
+
+    .ce-popover-item[data-item-name="heading3"] .ce-popover-item__title::before,
+    .ce-popover-item[data-tool="heading3"] .ce-popover-item__title::before {
+        content: "H3 ";
+        @apply text-sm font-bold text-black mr-2;
+        display: inline-block;
+        min-width: 30px;
+    }
+
+    .ce-popover-item[data-item-name="heading4"] .ce-popover-item__title::before,
+    .ce-popover-item[data-tool="heading4"] .ce-popover-item__title::before {
+        content: "H4 ";
+        @apply text-sm font-bold text-black mr-2;
+        display: inline-block;
+        min-width: 30px;
+    }
+
+    .ce-popover-item[data-item-name="heading5"] .ce-popover-item__title::before,
+    .ce-popover-item[data-tool="heading5"] .ce-popover-item__title::before {
+        content: "H5 ";
+        @apply text-sm font-bold text-black mr-2;
+        display: inline-block;
+        min-width: 30px;
+    }
+
+    .ce-popover-item[data-item-name="heading6"] .ce-popover-item__title::before,
+    .ce-popover-item[data-tool="heading6"] .ce-popover-item__title::before {
+        content: "H6 ";
+        @apply text-sm font-bold text-black mr-2;
+        display: inline-block;
+        min-width: 30px;
+    }
+
+    /* Adjust padding for larger heading text */
+    .ce-popover-item[data-item-name*="heading"],
+    .ce-popover-item[data-tool*="heading"] {
+        padding: 8px 12px;
+        line-height: 1.2;
+        min-height: auto;
+    }
+
+    /* Ensure proper alignment for heading items */
+    .ce-popover-item[data-item-name*="heading"] .ce-popover-item__title,
+    .ce-popover-item[data-tool*="heading"] .ce-popover-item__title {
+        display: flex;
+        align-items: center;
+        line-height: 1.2;
+    }
+
+    /* Alternative approach - target by text content */
+    .ce-popover-item .ce-popover-item__title:has-text("Title"),
+    .ce-popover-item .ce-popover-item__title:has-text("Heading"),
+    .ce-popover-item .ce-popover-item__title:has-text("Subheading"),
+    .ce-popover-item .ce-popover-item__title:has-text("Caption") {
+        position: relative;
+    }
+
+    /* Fallback styling for all heading-like items */
+    .ce-popover-item:has(.ce-popover-item__title:contains("Title")) .ce-popover-item__title::before {
+        content: "H1 ";
+        @apply text-sm font-bold text-black mr-2;
+        display: inline-block;
+        min-width: 30px;
+    }
+
+    /* Header tool specific styling */
+    .ce-popover-item--focused,
+    .ce-popover-item:hover {
+        @apply bg-grey/50;
+    }
+
+    /* EditorJS header tool settings */
+    .ce-settings {
+        @apply bg-white border border-grey rounded-lg shadow-lg;
+        z-index: 1000 !important;
+    }
+
+    .ce-settings__button {
+        @apply p-3 hover:bg-grey/30 transition-colors duration-200 cursor-pointer;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        border: none;
+        background: none;
+        width: 100%;
+        text-align: left;
+    }
+
+    .ce-settings__button--active {
+        @apply bg-grey/50;
+    }
+
+    /* Header level buttons styling */
+    .ce-settings__button[data-level] {
+        @apply font-medium;
+    }
+
+    .ce-settings__button[data-level="1"] {
+        @apply text-3xl;
+    }
+
+    .ce-settings__button[data-level="2"] {
+        @apply text-2xl;
+    }
+
+    .ce-settings__button[data-level="3"] {
+        @apply text-xl;
+    }
+
+    .ce-settings__button[data-level="4"] {
+        @apply text-lg;
+    }
+
+    .ce-settings__button[data-level="5"] {
+        @apply text-base;
+    }
+
+    .ce-settings__button[data-level="6"] {
+        @apply text-sm;
+    }
+
+    /* Header level dropdown styling */
+    .ce-header-settings {
+        @apply bg-white border border-grey rounded-lg shadow-lg p-2;
+        min-width: 180px;
+    }
+
+    .ce-header-settings__item {
+        @apply p-2 hover:bg-grey/30 rounded-md cursor-pointer transition-colors duration-200;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    /* Custom heading level labels in dropdown */
+    .ce-header-settings__item[data-level="1"]::before {
+        content: "H1";
+        @apply text-sm font-bold text-dark-grey;
+        width: 24px;
+    }
+
+    .ce-header-settings__item[data-level="2"]::before {
+        content: "H2";
+        @apply text-sm font-bold text-dark-grey;
+        width: 24px;
+    }
+
+    .ce-header-settings__item[data-level="3"]::before {
+        content: "H3";
+        @apply text-sm font-bold text-dark-grey;
+        width: 24px;
+    }
+
+    .ce-header-settings__item[data-level="4"]::before {
+        content: "H4";
+        @apply text-sm font-bold text-dark-grey;
+        width: 24px;
+    }
+
+    .ce-header-settings__item[data-level="5"]::before {
+        content: "H5";
+        @apply text-sm font-bold text-dark-grey;
+        width: 24px;
+    }
+
+    .ce-header-settings__item[data-level="6"]::before {
+        content: "H6";
+        @apply text-sm font-bold text-dark-grey;
+        width: 24px;
+    }
+
+    /* Editor focus states */
+    #textEditor .ce-block--focused {
+        @apply shadow-sm;
+    }
+
+    #textEditor .ce-header {
+        @apply transition-all duration-200 hover:text-black;
+    }
+
+    /* Header level indicators in editor */
+    #textEditor .ce-header:before {
+        content: attr(data-level);
+        @apply text-sm text-dark-grey font-medium mr-2 opacity-60;
+    }
+
+    /* Editor container improvements */
+    #textEditor {
+        min-height: 400px;
+        padding-bottom: 5rem;
+        position: relative;
+        padding-left: 50px; /* Space for larger toolbar */
+    }
+
+    /* Make sure editor blocks have proper positioning for toolbar */
+    #textEditor .ce-block {
+        position: relative;
+        margin-bottom: 1rem;
+    }
+
+    #textEditor .ce-block__content {
+        position: relative;
+        max-width: none;
+    }
+
+    /* Toolbar styling - Make sure toolbars are visible */
+    .ce-toolbar__plus {
+        @apply text-dark-grey hover:text-black;
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        border: 1px solid #e5e5e5;
+        background: white;
+        cursor: pointer;
+        transition: all 0.15s ease;
+        font-size: 18px;
+        font-weight: 500;
+    }
+
+    .ce-toolbar__plus:hover {
+        @apply bg-grey/50;
+        border-color: #d1d5db;
+    }
+
+    .ce-toolbar__settings-btn {
+        @apply text-dark-grey hover:text-black;
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        cursor: pointer;
+        transition: all 0.15s ease;
+    }
+
+    .ce-toolbar__settings-btn:hover {
+        @apply bg-grey/50 rounded-full;
+    }
+
+    /* Inline toolbar styling */
+    .ce-inline-toolbar {
+        @apply bg-white border border-grey rounded-lg shadow-lg;
+    }
+
+    .ce-inline-toolbar__buttons {
+        gap: 0.25rem;
+    }
+
+    /* Block tunes styling */
+    .ce-settings__button {
+        @apply hover:bg-grey/30 transition-colors duration-200;
+    }
+
+    /* Heading placeholder text improvements */
+    #textEditor .ce-header[data-placeholder]:empty:before {
+        @apply text-dark-grey/50;
+    }
+
+    /* Image block improvements */
+    #textEditor .cdx-simple-image {
+        @apply rounded-lg overflow-hidden border border-grey/30;
+        margin-top: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+
+    /* List improvements */
+    #textEditor .cdx-list--unordered .cdx-list__item:before {
+        @apply text-dark-grey;
+    }
+
+    #textEditor .cdx-list--ordered .cdx-list__item:before {
+        @apply text-dark-grey font-medium;
     }
 
     .tag{
@@ -173,6 +624,54 @@
 
 .ce-block__content, .ce-toolbar__content{
     max-width: 900px;
+}
+
+/* EditorJS toolbar visibility fixes */
+.ce-toolbar__plus svg {
+    width: 20px !important;
+    height: 20px !important;
+    display: block !important;
+}
+
+.ce-toolbar__settings-btn svg {
+    width: 18px !important;
+    height: 18px !important;
+    display: block !important;
+}
+
+/* Ensure toolbar appears on hover/focus */
+.ce-block:hover .ce-toolbar,
+.ce-block--focused .ce-toolbar {
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+/* Fix toolbar positioning */
+.ce-toolbar {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.15s ease;
+}
+
+.ce-block:hover .ce-toolbar,
+.ce-block--focused .ce-toolbar,
+.ce-toolbar--opened,
+.ce-block--selected .ce-toolbar {
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+/* Show toolbar for empty blocks */
+.ce-block[data-empty="true"] .ce-toolbar,
+.ce-block--empty .ce-toolbar {
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+/* Initial state - show toolbar for the first block */
+#textEditor .ce-block:first-child .ce-toolbar {
+    opacity: 1 !important;
+    visibility: visible !important;
 }
 
 .cdx-settings-button[data-tune='withBorder'],
