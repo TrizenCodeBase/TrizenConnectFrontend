@@ -75,45 +75,53 @@ const BlogPage = () => {
   };
 
   return (
-    <div className="max-w-6xl mx-auto px-4 md:px-0 mt-12">
+    <div className="max-w-4xl mx-auto px-6 py-8">
+      {/* Title */}
+      <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6 text-black">
+        {blog.title}
+      </h1>
+      
+      {/* Subtitle/Description */}
+      {blog.des && (
+        <div className="text-xl md:text-2xl text-dark-grey mb-8 font-normal leading-relaxed">
+          {blog.des}
+        </div>
+      )}
+      
+      {/* Author Info Row */}
+      <div className="flex items-center gap-4 mb-8 pb-8 border-b border-grey">
+        <img
+          src={blog.author?.personal_info?.profile_img}
+          alt={blog.author?.personal_info?.fullname}
+          className="w-12 h-12 rounded-full"
+        />
+        <div className="flex-1">
+          <div className="flex items-center gap-3 mb-1">
+            <span className="font-medium text-black text-base">{blog.author?.personal_info?.fullname}</span>
+            <FollowButton 
+              authorId={blog.author?._id} 
+              authorUsername={blog.author?.personal_info?.username} 
+            />
+          </div>
+          <div className="flex items-center gap-2 text-sm text-dark-grey">
+            <span>{getReadTime()}</span>
+            <span>•</span>
+            <span>{blog.publishedAt ? new Date(blog.publishedAt).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' }) : ''}</span>
+          </div>
+        </div>
+      </div>
+
       {/* Banner Image */}
       {blog.banner && (
         <img
           src={blog.banner}
           alt={blog.title}
-          className="w-full h-[400px] md:h-[500px] object-cover rounded-t-2xl mb-12"
+          className="w-full h-auto object-cover mb-12 rounded-lg"
         />
       )}
-      {/* Title */}
-      <h1 className="text-5xl md:text-6xl lg:text-7xl font-extrabold leading-tight mb-4 text-gray-900 text-left">
-        {blog.title}
-      </h1>
-      {/* Subtitle/Description */}
-      {blog.des && (
-        <div className="text-3xl md:text-4xl text-gray-600 mb-8 font-light max-w-4xl text-left">
-          {blog.des}
-        </div>
-      )}
-      {/* Meta Row */}
-      <div className="flex flex-wrap items-center gap-4 mb-8 text-gray-500 text-2xl md:text-3xl text-left">
-        <img
-          src={blog.author?.personal_info?.profile_img}
-          alt={blog.author?.personal_info?.fullname}
-          className="w-10 h-10 rounded-full border"
-        />
-        <span className="font-semibold text-gray-700">{blog.author?.personal_info?.fullname}</span>
-        <span className="text-gray-400">@{blog.author?.personal_info?.username}</span>
-        <span className="hidden md:inline">•</span>
-        <span>{blog.publishedAt ? new Date(blog.publishedAt).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' }) : ''}</span>
-        <span className="hidden md:inline">•</span>
-        <span>{getReadTime()}</span>
-        <FollowButton 
-          authorId={blog.author?._id} 
-          authorUsername={blog.author?.personal_info?.username} 
-        />
-      </div>
+      
       {/* Blog Content */}
-      <div className="editorjs-renderer-blocks">
+      <div className="prose prose-lg max-w-none">
         {blog.content && blog.content.blocks && blog.content.blocks.length > 0 ? (
           <EditorJsRenderer data={blog.content} />
         ) : (

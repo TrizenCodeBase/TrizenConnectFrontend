@@ -113,6 +113,51 @@
     .blog-index{
         @apply text-4xl sm:text-3xl lg:text-5xl font-bold text-grey leading-none;
     }
+
+    /* Medium-style blog content */
+    .prose {
+        @apply text-black;
+    }
+
+    .prose p {
+        @apply text-xl leading-8 mb-6 font-normal;
+    }
+
+    .prose h1 {
+        @apply text-4xl font-bold mb-4 mt-8 leading-tight;
+    }
+
+    .prose h2 {
+        @apply text-3xl font-bold mb-4 mt-8 leading-tight;
+    }
+
+    .prose h3 {
+        @apply text-2xl font-bold mb-3 mt-6 leading-tight;
+    }
+
+    .prose blockquote {
+        @apply text-xl italic border-l-4 border-dark-grey pl-6 my-6 text-dark-grey;
+    }
+
+    .prose ul, .prose ol {
+        @apply text-xl leading-8 mb-6;
+    }
+
+    .prose li {
+        @apply mb-2;
+    }
+
+    .prose code {
+        @apply bg-grey px-2 py-1 rounded text-base font-mono;
+    }
+
+    .prose pre {
+        @apply bg-grey p-4 rounded-lg overflow-x-auto mb-6;
+    }
+
+    .prose img {
+        @apply w-full h-auto my-8 rounded-lg;
+    }
 }
 
 .ce-block__content, .ce-toolbar__content{
