@@ -86,49 +86,110 @@
         @apply text-black border-r-2 border-black pl-6 bg-grey/50 -ml-6 md:rounded-tl-lg md:rounded-bl-lg max-md:border-none;
     }
 
-    /* Enhanced heading styles for editor */
+    /* Medium-style heading hierarchy */
     #textEditor h1, .blog-page-content h1 {
-        @apply font-inter text-5xl leading-tight font-black max-md:text-4xl max-md:leading-snug !important;
+        @apply font-inter text-4xl leading-tight font-bold !important;
         margin-bottom: 1.5rem;
-        margin-top: 2rem;
+        margin-top: 2.5rem;
+        color: #292929;
+        font-family: sohne, "Helvetica Neue", Helvetica, Arial, sans-serif;
+        font-weight: 700;
+        letter-spacing: -0.015em;
     }
 
     #textEditor h2, .blog-page-content h2, h2{
-        @apply font-inter text-4xl leading-normal font-bold max-md:text-3xl max-md:leading-snug !important;
+        @apply font-inter text-3xl leading-snug font-bold !important;
         margin-bottom: 1rem;
         margin-top: 2rem;
+        color: #292929;
+        font-family: sohne, "Helvetica Neue", Helvetica, Arial, sans-serif;
+        font-weight: 700;
+        letter-spacing: -0.01em;
     }
 
     #textEditor h3, .blog-page-content h3, h3 {
-        @apply font-inter text-3xl leading-loose font-bold max-md:text-2xl max-md:leading-normal !important;
+        @apply font-inter text-2xl leading-snug font-bold !important;
         margin-bottom: 1rem;
         margin-top: 1.5rem;
+        color: #292929;
+        font-family: sohne, "Helvetica Neue", Helvetica, Arial, sans-serif;
+        font-weight: 700;
     }
 
     #textEditor h4, .blog-page-content h4 {
-        @apply font-inter text-2xl leading-normal font-bold max-md:text-xl max-md:leading-snug !important;
-        margin-bottom: 0.75rem;
-        margin-top: 1.5rem;
+        @apply font-inter text-xl leading-snug font-semibold !important;
+        margin-bottom: 0.5rem;
+        margin-top: 1rem;
+        color: #292929;
+        font-family: sohne, "Helvetica Neue", Helvetica, Arial, sans-serif;
     }
 
     #textEditor h5, .blog-page-content h5 {
-        @apply font-inter text-xl leading-relaxed font-bold max-md:text-xl max-md:leading-normal !important;
-        margin-bottom: 0.75rem;
+        @apply font-inter text-base leading-snug font-semibold !important;
+        margin-bottom: 0.5rem;
         margin-top: 1rem;
+        color: #292929;
+        font-family: sohne, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    }
+
+    /* Mobile responsive headings */
+    @media (max-width: 768px) {
+        #textEditor h1, .blog-page-content h1 {
+            font-size: 1.875rem;
+            line-height: 1.25;
+        }
+        
+        #textEditor h2, .blog-page-content h2, h2 {
+            font-size: 1.5rem;
+            line-height: 1.375;
+        }
+        
+        #textEditor h3, .blog-page-content h3, h3 {
+            font-size: 1.25rem;
+            line-height: 1.375;
+        }
+        
+        #textEditor h4, .blog-page-content h4 {
+            font-size: 1.125rem;
+            line-height: 1.375;
+        }
+        
+        #textEditor h5, .blog-page-content h5 {
+            font-size: 1rem;
+            line-height: 1.5;
+        }
     }
 
     #textEditor h6, .blog-page-content h6 {
-        @apply font-inter text-xl leading-relaxed font-semibold text-dark-grey max-md:text-base !important;
+        @apply font-inter text-sm leading-snug font-semibold !important;
         margin-bottom: 0.5rem;
         margin-top: 1rem;
+        color: #6B6B6B;
+        font-family: sohne, "Helvetica Neue", Helvetica, Arial, sans-serif;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+    }
+
+    @media (max-width: 768px) {
+        #textEditor h6, .blog-page-content h6 {
+            font-size: 0.75rem;
+        }
     }
 
     #textEditor *, .blog-page-content *{
-        @apply font-gelasio text-xl leading-10 md:text-2xl;
+        @apply font-gelasio text-xl leading-8;
     }
 
     #textEditor a, .blog-page-content a{
-        @apply text-purple underline hover:opacity-50;
+        color: inherit;
+        text-decoration: underline;
+        text-decoration-color: #1a8917;
+        text-underline-offset: 2px;
+        transition: all 0.2s ease;
+    }
+
+    #textEditor a:hover, .blog-page-content a:hover{
+        text-decoration-color: #292929;
     }
 
     /* Enhanced editor typography and formatting */
@@ -137,17 +198,27 @@
     }
 
     #textEditor .ce-paragraph {
-        @apply text-xl leading-relaxed font-gelasio text-black;
-        margin-bottom: 1rem;
+        @apply text-xl leading-8 font-gelasio;
+        margin-bottom: 1.5rem;
+        margin-top: 1rem;
+        color: #292929;
+        font-family: charter, Georgia, Cambria, "Times New Roman", Times, serif;
+        line-height: 1.58;
+        letter-spacing: -0.003em;
     }
 
     #textEditor .cdx-quote {
-        @apply border-l-4 border-dark-grey bg-grey/20 italic;
+        @apply border-l-4 border-black italic;
         padding-left: 1.5rem;
-        padding-top: 1rem;
-        padding-bottom: 1rem;
-        margin-top: 1.5rem;
-        margin-bottom: 1.5rem;
+        padding-top: 1.5rem;
+        padding-bottom: 1.5rem;
+        margin-top: 2.5rem;
+        margin-bottom: 2.5rem;
+        color: #292929;
+        font-size: 1.375rem;
+        line-height: 1.6;
+        font-style: italic;
+        background: transparent;
     }
 
     #textEditor .cdx-quote__text {
@@ -198,18 +269,39 @@
 
     #textEditor .cdx-link,
     .blog-page-content .cdx-link {
-        @apply text-purple underline hover:opacity-70 transition-opacity duration-200;
+        color: inherit;
+        text-decoration: underline;
+        text-decoration-color: #1a8917;
+        text-underline-offset: 2px;
+        transition: all 0.2s ease;
+    }
+
+    #textEditor .cdx-link:hover,
+    .blog-page-content .cdx-link:hover {
+        text-decoration-color: #292929;
     }
 
     #textEditor .cdx-list {
-        padding-left: 1.5rem;
-        margin-top: 1rem;
-        margin-bottom: 1rem;
+        padding-left: 0;
+        margin-top: 1.5rem;
+        margin-bottom: 1.5rem;
+        color: #292929;
     }
 
     #textEditor .cdx-list__item {
-        @apply text-xl leading-relaxed font-gelasio text-black;
-        margin-bottom: 0.5rem;
+        @apply text-xl leading-8 font-gelasio;
+        margin-bottom: 0.75rem;
+        margin-left: 1.5rem;
+        padding-left: 0.5rem;
+        list-style-type: disc;
+        color: #292929;
+        font-family: charter, Georgia, Cambria, "Times New Roman", Times, serif;
+        line-height: 1.58;
+        letter-spacing: -0.003em;
+    }
+
+    #textEditor .cdx-list--ordered .cdx-list__item {
+        list-style-type: decimal;
     }
 
     /* Ensure toolbar container is visible */
@@ -337,6 +429,170 @@
         @apply text-sm font-bold text-black mr-2;
         display: inline-block;
         min-width: 30px;
+    }
+
+    /* Medium-style prose styling for published blogs */
+    .prose {
+        color: #292929;
+        font-family: charter, Georgia, Cambria, "Times New Roman", Times, serif;
+        line-height: 1.58;
+        letter-spacing: -0.003em;
+    }
+
+    .prose p {
+        @apply text-xl leading-8 mb-6 font-normal;
+        margin-top: 1.5rem;
+        margin-bottom: 1.5rem;
+        color: #292929;
+        font-family: charter, Georgia, Cambria, "Times New Roman", Times, serif;
+        line-height: 1.58;
+        letter-spacing: -0.003em;
+    }
+
+    .prose h1 {
+        @apply text-4xl font-bold mb-6 mt-10 leading-tight;
+        color: #292929;
+        font-family: sohne, "Helvetica Neue", Helvetica, Arial, sans-serif;
+        font-weight: 700;
+        letter-spacing: -0.015em;
+    }
+
+    .prose h2 {
+        @apply text-3xl font-bold mb-4 mt-8 leading-snug;
+        color: #292929;
+        font-family: sohne, "Helvetica Neue", Helvetica, Arial, sans-serif;
+        font-weight: 700;
+        letter-spacing: -0.01em;
+    }
+
+    .prose h3 {
+        @apply text-2xl font-bold mb-4 mt-6 leading-snug;
+        color: #292929;
+        font-family: sohne, "Helvetica Neue", Helvetica, Arial, sans-serif;
+        font-weight: 700;
+    }
+
+    .prose h4 {
+        @apply text-xl font-semibold mb-2 mt-4 leading-snug;
+        color: #292929;
+        font-family: sohne, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    }
+
+    .prose h5 {
+        @apply text-base font-semibold mb-2 mt-3 leading-snug;
+        color: #292929;
+        font-family: sohne, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    }
+
+    .prose h6 {
+        @apply text-sm font-semibold mb-2 mt-3 leading-snug uppercase tracking-wide;
+        color: #6B6B6B;
+        font-family: sohne, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    }
+
+    .prose blockquote {
+        @apply border-l-4 border-black pl-6 italic my-6;
+        color: #292929;
+        font-size: 1.25rem;
+        line-height: 1.6;
+        font-style: italic;
+        margin-left: 0;
+        margin-right: 0;
+        background: transparent;
+    }
+
+    .prose ul,
+    .prose ol {
+        @apply my-6 pl-0;
+        color: #292929;
+    }
+
+    .prose li {
+        @apply mb-2 text-xl leading-8;
+        margin-left: 1.5rem;
+        padding-left: 0.5rem;
+        color: #292929;
+        font-family: charter, Georgia, Cambria, "Times New Roman", Times, serif;
+        line-height: 1.58;
+        letter-spacing: -0.003em;
+    }
+
+    .prose ul li {
+        list-style-type: disc;
+    }
+
+    .prose ol li {
+        list-style-type: decimal;
+    }
+
+    .prose a {
+        color: inherit;
+        text-decoration: underline;
+        text-decoration-color: #1a8917;
+        text-underline-offset: 2px;
+        transition: all 0.2s ease;
+    }
+
+    .prose a:hover {
+        text-decoration-color: #292929;
+    }
+
+    .prose img {
+        @apply w-full h-auto my-6;
+        border-radius: 0;
+    }
+
+    .prose code {
+        @apply bg-grey px-2 py-1 rounded text-sm;
+        font-family: Menlo, Monaco, "Courier New", monospace;
+        background-color: #f7f7f7;
+        color: #292929;
+    }
+
+    .prose pre {
+        @apply bg-grey p-4 rounded overflow-x-auto my-6;
+        background-color: #f7f7f7;
+    }
+
+    .prose pre code {
+        @apply bg-transparent p-0;
+    }
+
+    /* Mobile Responsive */
+    @media (max-width: 640px) {
+        .prose {
+            @apply leading-7;
+        }
+        
+        .prose p {
+            @apply text-base leading-7 mb-4;
+            margin-top: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .prose h1 {
+            @apply text-3xl mb-4 mt-8;
+        }
+        
+        .prose h2 {
+            @apply text-2xl mb-3 mt-6;
+        }
+        
+        .prose h3 {
+            @apply text-xl mb-3 mt-5;
+        }
+        
+        .prose li {
+            @apply text-base leading-7;
+        }
+        
+        .prose blockquote {
+            @apply pl-4 my-4 text-base;
+        }
+        
+        .prose * {
+            @apply break-words;
+        }
     }
 
     /* Adjust padding for larger heading text */
