@@ -103,20 +103,20 @@ const BlogInteraction = ({ blog, setBlog, commentsWrapper, setCommentsWrapper })
     };
 
     return (
-        <>
-            <hr className="border-grey my-2" />
+        <div className="px-2 sm:px-0">
+            <hr className="border-grey my-4 sm:my-6" />
 
-            <div className="flex gap-6 justify-between">
-                <div className="flex gap-3 items-center">
+            <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-between">
+                <div className="flex gap-4 sm:gap-3 items-center">
 
                     <button 
                         onClick={handleLike}
-                        className={"w-10 h-10 rounded-full flex items-center justify-center " + (isLikedByUser ? "bg-red/20 text-red" : "bg-grey/80")}
+                        className={"w-12 h-12 sm:w-10 sm:h-10 rounded-full flex items-center justify-center touch-manipulation transition-all duration-200 " + (isLikedByUser ? "bg-red/20 text-red" : "bg-grey/80 hover:bg-grey")}
                         title={!access_token ? "Login to like this blog" : "Like this blog"}
                     >
-                        <i className={"fi " + (isLikedByUser ? "fi-sr-heart" : "fi-rr-heart")}></i>
+                        <i className={"fi text-xl sm:text-base " + (isLikedByUser ? "fi-sr-heart" : "fi-rr-heart")}></i>
                     </button>
-                    <p className="text-xl text-dark-grey">{total_likes}</p>
+                    <p className="text-xl text-dark-grey font-medium">{total_likes}</p>
 
                     <button 
                         onClick={() => {
@@ -127,38 +127,38 @@ const BlogInteraction = ({ blog, setBlog, commentsWrapper, setCommentsWrapper })
                                 setCommentsWrapper(preVal => !preVal);
                             }
                         }}
-                        className="w-10 h-10 rounded-full flex items-center justify-center bg-grey/80"
+                        className="w-12 h-12 sm:w-10 sm:h-10 rounded-full flex items-center justify-center bg-grey/80 hover:bg-grey touch-manipulation transition-all duration-200"
                         title={!access_token ? "Login to view comments" : "View comments"}
                     >
-                        <i className="fi fi-rr-comment-dots"></i>
+                        <i className="fi fi-rr-comment-dots text-xl sm:text-base"></i>
                     </button>
-                    <p className="text-xl text-dark-grey">{total_comments}</p>
+                    <p className="text-xl text-dark-grey font-medium">{total_comments}</p>
 
                 </div>
 
-                <div className="flex gap-3 items-center">
+                <div className="flex gap-3 sm:gap-3 items-center justify-start sm:justify-end">
 
                     {!access_token ? 
-                        <Link to="/signin" className="btn-light rounded-md px-4 py-2 text-sm">
+                        <Link to="/signin" className="btn-light rounded-md px-4 py-2 text-sm touch-manipulation">
                             Login to Interact
                         </Link>
                         : ""
                     }
 
                     {username === author_username ? 
-                        <Link to={`/editor/${blog_id}`} className="underline hover:text-purple">Edit</Link> : ""
+                        <Link to={`/editor/${blog_id}`} className="underline hover:text-purple text-sm sm:text-base touch-manipulation py-2">Edit</Link> : ""
                     }
 
-                    <Link to={`https://twitter.com/intent/tweet?text=Read ${title}&url=${location.href}`}>
-                        <i className="fi fi-brands-twitter text-xl hover:text-twitter"></i>
+                    <Link to={`https://twitter.com/intent/tweet?text=Read ${title}&url=${location.href}`} className="touch-manipulation p-2">
+                        <i className="fi fi-brands-twitter text-xl sm:text-xl hover:text-twitter transition-colors duration-200"></i>
                     </Link>
 
                 </div>
 
             </div>
 
-            <hr className="border-grey my-2" />
-        </>
+            <hr className="border-grey my-4 sm:my-6" />
+        </div>
     );
 };
 

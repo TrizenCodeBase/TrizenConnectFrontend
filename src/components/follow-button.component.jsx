@@ -91,10 +91,10 @@ const FollowButton = ({ authorId, authorUsername }) => {
             onClick={handleFollow}
             disabled={isLoading}
             className={
-                "px-3 py-1 rounded-full text-sm font-medium transition-all duration-200 " +
+                "px-2 sm:px-3 py-1 sm:py-1.5 rounded-full text-sm font-medium transition-all duration-200 min-h-[32px] sm:min-h-auto touch-manipulation " +
                 (isFollowing 
-                    ? "bg-black text-white hover:bg-dark-grey" 
-                    : "border border-black text-black hover:bg-black hover:text-white"
+                    ? "bg-black text-white hover:bg-dark-grey active:bg-dark-grey" 
+                    : "border border-black text-black hover:bg-black hover:text-white active:bg-black active:text-white"
                 ) +
                 (isLoading ? " opacity-50 cursor-not-allowed" : " cursor-pointer")
             }
@@ -124,7 +124,7 @@ const FollowButton = ({ authorId, authorUsername }) => {
                             ) : (
                                 "Following"
                             )}
-                            <i className="fi fi-rr-angle-small-down text-xs"></i>
+                            <i className="fi fi-rr-angle-small-down text-sm"></i>
                         </span>
                     ) : (
                         "Follow"
