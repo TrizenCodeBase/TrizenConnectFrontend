@@ -15,12 +15,27 @@ import { config } from "../config/environment.js";
 const BlogEditor = () => {
   let {
     blog,
-    blog: { title, banner, content, tags, des },
     setBlog,
     textEditor,
     setTextEditor,
     setEditorState,
+    blog_id
   } = useContext(EditorContext);
+
+  // Safety check - if blog is not loaded yet, show loading
+  if (!blog) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-black mx-auto"></div>
+          <p className="mt-4 text-dark-grey">Loading editor...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Safely destructure blog properties with defaults
+  const { title = "", banner = "", content = [], tags = [], des = "" } = blog;
 
   let {
     userAuth: { access_token },
@@ -29,16 +44,23 @@ const BlogEditor = () => {
   let navigate = useNavigate();
 
   useEffect(() => {
-    if (!textEditor.isReady) {
+    // Initialize or reinitialize editor when content changes
+    if (textEditor.isReady && content && content.blocks) {
+      // If editor exists and we have new content, destroy and recreate
+      textEditor.destroy();
+      setTextEditor({isReady: false});
+    }
+    
+    if (!textEditor.isReady && blog) {
       setTextEditor(
         new EditorJS({
-          holderId: "textEditor",
-          data: content,
+          holder: "textEditor",
+          data: Array.isArray(content) && content.length === 0 ? {} : content,
           tools: tools,
-          placeholder: "Tell your story...",
+          placeholder: blog_id ? "Edit your story..." : "Tell your story...",
           minHeight: 200,
           logLevel: 'ERROR',
-          autofocus: true,
+          autofocus: !blog_id, // Don't autofocus when editing existing content
           inlineToolbar: ['bold', 'italic', 'link', 'marker', 'inlineCode'],
           defaultBlock: 'paragraph',
           i18n: {
@@ -95,7 +117,7 @@ const BlogEditor = () => {
         })
       );
     }
-  }, []);
+  }, [content, blog_id]); // Add dependencies to reinitialize when content changes
 
   const handleBannerUpload = (e) => {
     let img = e.target.files[0];
@@ -216,12 +238,12 @@ const BlogEditor = () => {
           <img src={Logo} alt="logo" className="w-full h-auto object-contain" />
         </Link>
         <p className="max-md:hidden text-black line-clamp-1 w-full">
-          {title ? title : "New Blog"}
+          {title ? title : (blog_id ? "Edit Blog" : "New Blog")}
         </p>
 
-        <div div className="flex gap-4 ml-auto">
+        <div className="flex gap-4 ml-auto">
           <button className="btn-dark py-2" onClick={handlePublishEvent}>
-            Publish
+            {blog_id ? "Update" : "Publish"}
           </button>
           <button className="btn-light py-2" onClick={handleSaveDraft}>
             Save Draft

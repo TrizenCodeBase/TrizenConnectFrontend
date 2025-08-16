@@ -17,6 +17,7 @@ const PublishForm = () => {
     blog: { title, banner, content, tags, des },
     setEditorState,
     setBlog,
+    blog_id
   } = useContext(EditorContext);
 
   let {userAuth :{access_token}} = useContext(UserContext);
@@ -60,7 +61,7 @@ const PublishForm = () => {
       return toast.error("Add atleast one tag to help in searching and ranking your blog post")
     }
 
-    let loadingToast = toast.loading("Publishing...");
+    let loadingToast = toast.loading(blog_id ? "Updating..." : "Publishing...");
     e.target.classList.add('disable');
 
     let blogObj = {
@@ -72,7 +73,16 @@ const PublishForm = () => {
       draft: false
     }
 
-    axios.post(config.serverDomain + "/create-blog", blogObj,{
+    // Add blog_id if updating existing blog
+    if (blog_id) {
+      blogObj.id = blog_id;
+    }
+
+    const apiEndpoint = blog_id ? "/update-blog" : "/create-blog";
+
+    console.log("Publishing blog:", { blog_id, apiEndpoint, blogObj });
+
+    axios.post(config.serverDomain + apiEndpoint, blogObj, {
       headers: {
         'Authorization': `Bearer ${access_token}`
       }
@@ -80,16 +90,16 @@ const PublishForm = () => {
     .then(() => {
         e.target.classList.remove('disable');
         toast.dismiss(loadingToast);
-        toast.success("Published 👍🏻");
-        setTimeout(()=>{
-          // dashboard
-          navigate('/');
-        },500);
+        toast.success(blog_id ? "Blog Updated Successfully! 👍🏻" : "Published 👍🏻");
+        setTimeout(() => {
+          navigate('/dashboard/blogs');
+        }, 500);
     })
     .catch(({response}) => {
       e.target.classList.remove('disable');
       toast.dismiss(loadingToast);
-      toast.error(response.data.error);
+      console.error("Blog update error:", response?.data || "Unknown error");
+      toast.error(response?.data?.error || "Something went wrong");
     })
   }
 
@@ -182,7 +192,7 @@ const PublishForm = () => {
 
             <button className="btn-dark px-8"
             onClick={publishBlog}
-            >Publish</button>
+            >{blog_id ? "Update Blog" : "Publish"}</button>
           </div>
         </div>
       </section>

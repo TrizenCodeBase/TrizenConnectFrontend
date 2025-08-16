@@ -12,14 +12,18 @@ export const filterPaginationData = async ({
 
     let obj ;
 
-    if(state !== null && !create_new_arr){
+    if(state !== null && !create_new_arr && state.results){
         obj = {...state, results: [...state.results, ...data], page: page}
     }else{
        await axios.post(config.serverDomain + countRoute, data_to_send)
         .then(({data:{totalDocs}})=>{
             obj = {results: data, page: 1, totalDocs}
         })
-        .catch(err=>console.log(err))
+        .catch(err=>{
+            console.log(err)
+            // Return a default structure if the request fails
+            obj = {results: data || [], page: 1, totalDocs: 0}
+        })
     }
 
     return obj;

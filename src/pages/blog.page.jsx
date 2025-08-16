@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import Loader from "../components/loader.component";
 import PageNotFound from "./404.page";
 import BlogPostCard from "../components/blog-post.component";
@@ -20,7 +20,7 @@ const BlogPage = () => {
   const [commentsWrapper, setCommentsWrapper] = useState(false);
   const [totalParentCommentsLoaded, setTotalParentCommentsLoaded] = useState(0);
 
-  let { userAuth: { access_token } } = useContext(UserContext);
+  let { userAuth: { access_token, username } } = useContext(UserContext);
 
   useEffect(() => {
     setLoading(true);
@@ -75,21 +75,21 @@ const BlogPage = () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8">
+    <div className="max-w-3xl mx-auto px-6 py-8">
       {/* Title */}
-      <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold leading-tight mb-4 sm:mb-6 text-black px-2 sm:px-0">
+      <h1 className="text-4xl sm:text-5xl font-bold leading-tight mb-6 text-black">
         {blog.title}
       </h1>
       
       {/* Subtitle/Description */}
       {blog.des && (
-        <div className="text-xl md:text-2xl text-dark-grey mb-6 sm:mb-8 font-normal leading-relaxed px-2 sm:px-0">
+        <div className="text-xl text-dark-grey mb-8 font-normal leading-relaxed">
           {blog.des}
         </div>
       )}
       
       {/* Author Info Row */}
-      <div className="flex items-start sm:items-center gap-3 sm:gap-4 mb-6 sm:mb-8 pb-6 sm:pb-8 border-b border-grey px-2 sm:px-0">
+      <div className="flex items-start sm:items-center gap-3 sm:gap-4 mb-8 pb-8 border-b border-grey/30">
         <img
           src={blog.author?.personal_info?.profile_img}
           alt={blog.author?.personal_info?.fullname}
@@ -102,6 +102,16 @@ const BlogPage = () => {
               authorId={blog.author?._id} 
               authorUsername={blog.author?.personal_info?.username} 
             />
+            {/* Edit Button for Author */}
+            {username === blog.author?.personal_info?.username && (
+              <Link
+                to={`/editor/${blog.blog_id}`}
+                className="inline-flex items-center gap-1 px-3 py-1 text-sm text-dark-grey hover:text-black transition-colors duration-200"
+              >
+                <i className="fi fi-rr-edit text-xs"></i>
+                Edit
+              </Link>
+            )}
           </div>
           <div className="flex items-center gap-2 text-sm text-dark-grey">
             <span>{getReadTime()}</span>
@@ -116,12 +126,12 @@ const BlogPage = () => {
         <img
           src={blog.banner}
           alt={blog.title}
-          className="w-full h-auto object-cover mb-8 sm:mb-12 rounded-lg"
+          className="w-full h-auto object-cover mb-12 rounded-lg"
         />
       )}
       
       {/* Blog Content */}
-      <div className="prose prose-sm sm:prose-lg max-w-none px-2 sm:px-0">
+      <div className="prose prose-lg max-w-none">
         {blog.content && blog.content.blocks && blog.content.blocks.length > 0 ? (
           <EditorJsRenderer data={blog.content} />
         ) : (

@@ -63,7 +63,7 @@ const ProfilePage = () => {
         setLoading(false);
       })
       .catch((err) => {
-        console.log(err);
+        console.error("Error fetching profile:", err);
         setLoading(false);
       });
   };
@@ -90,6 +90,9 @@ const ProfilePage = () => {
         formattedData.user_id = user_id;
 
         setBlogs(formattedData);
+      })
+      .catch((err) => {
+        console.error("Error fetching blogs:", err);
       });
   };
 
@@ -114,78 +117,139 @@ const ProfilePage = () => {
       {loading ? (
         <Loader />
       ) : profile_username.length ? (
-        <section className="h-cover md:flex flex-row-reverse items-start gap-5 min-[1100px]:gap-12">
-          <div className="flex flex-col max-md:items-center gap-5 min-w-[250px] md:w-[50%] md:pl-8 md:border-l border-grey md:sticky md:top-[100px] md:py-10">
+        <section className="min-h-screen bg-white">
+          {/* Header Banner */}
+          <div className="w-full bg-gradient-to-r from-grey/20 to-grey/10 border-b border-grey/20">
+            <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+              <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6 sm:gap-8">
+                {/* Profile Image */}
+                <div className="relative">
             <img
               src={profile_img}
-              className="h-48 w-48 bg-grey rounded-full md:w-32 md:h-32"
-            />
+                    className="w-28 h-28 sm:w-32 sm:h-32 lg:w-36 lg:h-36 bg-grey rounded-full border-4 border-white shadow-lg object-cover"
+                    alt={fullname}
+                  />
+                  {profileId === username && (
+                    <div className="absolute -bottom-2 -right-2 bg-black text-white rounded-full p-2 shadow-lg">
+                      <i className="fi fi-rr-camera text-sm"></i>
+                    </div>
+                  )}
+                </div>
 
-            <h1 className="text-2xl font-medium">@{profile_username}</h1>
+                {/* Profile Info */}
+                <div className="flex-1 text-center sm:text-left">
+                  <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-black mb-2 leading-tight">
+                    {fullname}
+                  </h1>
+                  <p className="text-lg sm:text-xl text-dark-grey mb-4">@{profile_username}</p>
+                  
+                  {/* Stats */}
+                  <div className="flex flex-wrap justify-center sm:justify-start gap-6 sm:gap-8 mb-6">
+                    <div className="text-center">
+                      <div className="text-2xl sm:text-3xl font-bold text-black">{total_posts.toLocaleString()}</div>
+                      <div className="text-sm text-dark-grey">Blogs</div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-2xl sm:text-3xl font-bold text-black">{total_reads.toLocaleString()}</div>
+                      <div className="text-sm text-dark-grey">Reads</div>
+                    </div>
+                  </div>
 
-            <p className="text-xl capitalize h-6">{fullname}</p>
-
-            <p>
-              {total_posts.toLocaleString()} Blogs -{" "}
-              {total_reads.toLocaleString()} Reads
-            </p>
-
-            <div className="flex gap-4 mt-2">
+                  {/* Action Buttons */}
+                  <div className="flex flex-wrap justify-center sm:justify-start gap-3">
               {profileId === username ? (
+                      <>
                 <Link
                   to="/settings/edit-profile"
-                  className="btn-light rounded-md"
+                          className="px-6 py-2 bg-black text-white rounded-full font-medium hover:bg-dark-grey transition-colors duration-200"
                 >
                   Edit Profile
                 </Link>
+                        <Link
+                          to="/dashboard/blogs"
+                          className="px-6 py-2 border border-black text-black rounded-full font-medium hover:bg-black hover:text-white transition-all duration-200"
+                        >
+                          Manage Blogs
+                        </Link>
+                      </>
               ) : (
                 <FollowButton 
                   authorId={profile._id} 
                   authorUsername={profile.personal_info.username} 
                 />
               )}
+                  </div>
+                </div>
             </div>
 
-            <AboutUser
-              className="max-md:hidden"
-              bio={bio}
-              social_links={social_links}
-              joinedAt={joinedAt}
-            />
+              {/* Bio Section */}
+              {bio && (
+                <div className="mt-8 max-w-3xl">
+                  <p className="text-lg text-dark-grey leading-relaxed">{bio}</p>
+                </div>
+              )}
+            </div>
           </div>
 
-          <div className="max-md:mt-12 w-full">
+          {/* Content Section */}
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
             <InPageNavigation
-              routes={["Blogs Published", "About"]}
+              routes={["Published Blogs", "About"]}
               defaultHidden={["About"]}
             >
-              <>
+              <div className="space-y-6">
                 {blogs === null ? (
                   <Loader />
                 ) : blogs.results.length ? (
-                  blogs.results.map((blog, index) => {
-                    return (
+                  <div className="grid gap-6">
+                    {blogs.results.map((blog, index) => (
                       <AnimationWrapper
-                        transition={{ duration: 1, delay: index * 0.1 }}
+                        transition={{ duration: 0.6, delay: index * 0.1 }}
                         key={index}
                       >
+                        <div className="bg-white rounded-lg border border-grey/20 hover:border-grey/40 transition-all duration-200 hover:shadow-md">
                         <BlogPostCard
                           content={blog}
                           author={blog.author.personal_info}
                         />
+                        </div>
                       </AnimationWrapper>
-                    );
-                  })
+                    ))}
+                  </div>
                 ) : (
-                  <NoDataMessage message="No blogs published" />
+                  <div className="text-center py-16">
+                    <div className="w-24 h-24 bg-grey/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                      <i className="fi fi-rr-document text-3xl text-dark-grey"></i>
+                    </div>
+                    <h3 className="text-xl font-medium text-black mb-2">No blogs published yet</h3>
+                    <p className="text-dark-grey mb-6">
+                      {profileId === username 
+                        ? "Start writing your first blog to share your thoughts with the world." 
+                        : `${fullname} hasn't published any blogs yet.`
+                      }
+                    </p>
+                    {profileId === username && (
+                      <Link
+                        to="/editor"
+                        className="px-6 py-3 bg-black text-white rounded-full font-medium hover:bg-dark-grey transition-colors duration-200 inline-flex items-center gap-2"
+                      >
+                        <i className="fi fi-rr-edit"></i>
+                        Write your first blog
+                      </Link>
+                    )}
+                  </div>
                 )}
                 <LoadMoreDataBtn state={blogs} fetchDataFun={getBlogs} />
-              </>
+              </div>
+              
+              {/* About Tab Content */}
+              <div className="max-w-3xl">
               <AboutUser
                 bio={bio}
                 social_links={social_links}
                 joinedAt={joinedAt}
               />
+              </div>
             </InPageNavigation>
           </div>
         </section>

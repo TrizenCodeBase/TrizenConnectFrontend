@@ -59,7 +59,7 @@ const App = () => {
   useEffect(() => {
     // Check if user has valid persistent authentication
     if (isAuthValid()) {
-      let userInSession = lookInSession("user");
+    let userInSession = lookInSession("user");
       if (userInSession) {
         try {
           const userData = JSON.parse(userInSession);
