@@ -17,7 +17,8 @@ const PublishForm = () => {
     blog: { title, banner, content, tags, des },
     setEditorState,
     setBlog,
-    blog_id
+    blog_id,
+    textEditor
   } = useContext(EditorContext);
 
   let {userAuth :{access_token}} = useContext(UserContext);
@@ -64,43 +65,57 @@ const PublishForm = () => {
     let loadingToast = toast.loading(blog_id ? "Updating..." : "Publishing...");
     e.target.classList.add('disable');
 
-    let blogObj = {
-      title,
-      banner,
-      des,
-      content,
-      tags,
-      draft: false
-    }
+    // Get the latest content from the editor
+    if (textEditor && textEditor.isReady) {
+      textEditor.save().then((latestContent) => {
+        let blogObj = {
+          title,
+          banner,
+          des,
+          content: latestContent,
+          tags,
+          draft: false
+        }
 
-    // Add blog_id if updating existing blog
-    if (blog_id) {
-      blogObj.id = blog_id;
-    }
+        // Add blog_id if updating existing blog
+        if (blog_id) {
+          blogObj.id = blog_id;
+        }
 
-    const apiEndpoint = blog_id ? "/update-blog" : "/create-blog";
+        const apiEndpoint = blog_id ? "/update-blog" : "/create-blog";
 
-    console.log("Publishing blog:", { blog_id, apiEndpoint, blogObj });
+        console.log("Publishing blog:", { blog_id, apiEndpoint, blogObj });
 
-    axios.post(config.serverDomain + apiEndpoint, blogObj, {
-      headers: {
-        'Authorization': `Bearer ${access_token}`
-      }
-    })
-    .then(() => {
+        axios.post(config.serverDomain + apiEndpoint, blogObj, {
+          headers: {
+            'Authorization': `Bearer ${access_token}`
+          }
+        })
+        .then(() => {
+            e.target.classList.remove('disable');
+            toast.dismiss(loadingToast);
+            toast.success(blog_id ? "Blog Updated Successfully! 👍🏻" : "Published 👍🏻");
+            setTimeout(() => {
+              navigate('/dashboard/blogs');
+            }, 500);
+        })
+        .catch(({response}) => {
+          e.target.classList.remove('disable');
+          toast.dismiss(loadingToast);
+          console.error("Blog update error:", response?.data || "Unknown error");
+          toast.error(response?.data?.error || "Something went wrong");
+        });
+      }).catch((error) => {
         e.target.classList.remove('disable');
         toast.dismiss(loadingToast);
-        toast.success(blog_id ? "Blog Updated Successfully! 👍🏻" : "Published 👍🏻");
-        setTimeout(() => {
-          navigate('/dashboard/blogs');
-        }, 500);
-    })
-    .catch(({response}) => {
+        console.error("Editor save error:", error);
+        toast.error("Failed to save editor content");
+      });
+    } else {
       e.target.classList.remove('disable');
       toast.dismiss(loadingToast);
-      console.error("Blog update error:", response?.data || "Unknown error");
-      toast.error(response?.data?.error || "Something went wrong");
-    })
+      toast.error("Editor is not ready");
+    }
   }
 
   const handleKeyDown = (e) => {

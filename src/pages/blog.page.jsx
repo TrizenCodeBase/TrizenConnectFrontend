@@ -65,6 +65,11 @@ const BlogPage = () => {
   if (error) return <div className="text-center text-red-500">Failed to load blog.</div>;
   if (!blog || !blog.blog_id) return null;
 
+  // Debug: Log the blog content structure
+  console.log("Blog content structure:", blog.content);
+  console.log("Blog content blocks:", blog.content?.blocks);
+  console.log("Blog content blocks length:", blog.content?.blocks?.length);
+
   // Estimate read time (simple: 200 words/min)
   const getReadTime = () => {
     if (!blog.content || !Array.isArray(blog.content.blocks)) return '';
@@ -72,6 +77,41 @@ const BlogPage = () => {
     const words = text.split(/\s+/).length;
     const mins = Math.max(1, Math.round(words / 200));
     return `${mins} min read`;
+  };
+
+  // Function to clean HTML content while preserving formatting
+  const cleanHtmlContent = (content) => {
+    if (!content) return '';
+    
+    // Replace common HTML entities
+    let cleaned = content
+      .replace(/&nbsp;/g, ' ')
+      .replace(/&amp;/g, '&')
+      .replace(/&lt;/g, '<')
+      .replace(/&gt;/g, '>')
+      .replace(/&quot;/g, '"')
+      .replace(/&#39;/g, "'");
+    
+    return cleaned.trim();
+  };
+
+  // Function to clean HTML content completely (for section headers)
+  const cleanHtmlContentCompletely = (content) => {
+    if (!content) return '';
+    
+    // Replace common HTML entities
+    let cleaned = content
+      .replace(/&nbsp;/g, ' ')
+      .replace(/&amp;/g, '&')
+      .replace(/&lt;/g, '<')
+      .replace(/&gt;/g, '>')
+      .replace(/&quot;/g, '"')
+      .replace(/&#39;/g, "'");
+    
+    // Remove any remaining HTML tags that shouldn't be visible
+    cleaned = cleaned.replace(/<[^>]*>/g, '');
+    
+    return cleaned.trim();
   };
 
   return (
@@ -133,7 +173,137 @@ const BlogPage = () => {
       {/* Blog Content */}
       <div className="prose prose-lg max-w-none">
         {blog.content && blog.content.blocks && blog.content.blocks.length > 0 ? (
-          <EditorJsRenderer data={blog.content} />
+          <>
+            
+                         {/* Custom Content Renderer */}
+             <div className="blog-content">
+               {blog.content.blocks.map((block, index) => {
+                 switch (block.type) {
+                   case 'header':
+                   case 'heading1':
+                   case 'heading2':
+                   case 'heading3':
+                   case 'heading4':
+                   case 'heading5':
+                   case 'heading6':
+                     const level = block.data.level || 2;
+                     const Tag = `h${level}`;
+                     return (
+                       <Tag key={index} className={`heading-${level}`}>
+                         {block.data.text}
+                       </Tag>
+                     );
+                   
+                                       case 'paragraph':
+                                             // Check if this paragraph contains the problematic HTML
+                       if (block.data.text.includes('<b>') && block.data.text.includes('For Instructors')) {
+                         const emojiMatch = block.data.text.match(/👩‍🏫|👨‍🎓|🎓/);
+                         const emoji = emojiMatch ? emojiMatch[0] : '';
+                         const cleanText = cleanHtmlContentCompletely(block.data.text);
+                         const sectionName = cleanText.replace(emoji, '').trim();
+                         
+                         return (
+                           <h3 key={index} className="text-xl font-bold text-black mb-2 mt-6">
+                             {emoji} {sectionName}
+                           </h3>
+                         );
+                       }
+                      
+                      return (
+                        <p key={index} dangerouslySetInnerHTML={{ __html: block.data.text }} />
+                      );
+                   
+                                       case 'list':
+                      const ListTag = block.data.style === 'ordered' ? 'ol' : 'ul';
+                      return (
+                        <ListTag key={index} className="list-disc pl-6 space-y-2">
+                          {block.data.items.map((item, itemIndex) => {
+                            // Debug: Log the raw item content
+                            console.log(`List item ${itemIndex}:`, item);
+                            
+                                                         // Special handling for section headers within lists
+                             if (item.includes('For Instructors') || item.includes('For Students')) {
+                               // Extract emoji and text, remove HTML tags completely
+                               const emojiMatch = item.match(/👩‍🏫|👨‍🎓|🎓/);
+                               const emoji = emojiMatch ? emojiMatch[0] : '';
+                               const cleanText = cleanHtmlContentCompletely(item);
+                               const sectionName = cleanText.replace(emoji, '').trim();
+                               
+                               return (
+                                 <li key={itemIndex} className="list-none -ml-6 mt-6 mb-4">
+                                   <h3 className="text-xl font-bold text-black mb-2">
+                                     {emoji} {sectionName}
+                                   </h3>
+                                 </li>
+                               );
+                             }
+                            
+                            // For regular list items, clean up HTML entities and render
+                            const cleanItem = cleanHtmlContent(item);
+                            return (
+                              <li key={itemIndex} className="text-base leading-relaxed" dangerouslySetInnerHTML={{ __html: cleanItem }} />
+                            );
+                          })}
+                        </ListTag>
+                      );
+                   
+                   case 'quote':
+                     return (
+                       <blockquote key={index}>
+                         <p dangerouslySetInnerHTML={{ __html: block.data.text }} />
+                         {block.data.caption && (
+                           <cite>— {block.data.caption}</cite>
+                         )}
+                       </blockquote>
+                     );
+                   
+                   case 'image':
+                     return (
+                       <figure key={index}>
+                         <img 
+                           src={block.data.file.url} 
+                           alt={block.data.caption || ''} 
+                           className="w-full h-auto rounded-lg"
+                         />
+                         {block.data.caption && (
+                           <figcaption>{block.data.caption}</figcaption>
+                         )}
+                       </figure>
+                     );
+                   
+                   case 'embed':
+                     return (
+                       <div key={index} className="embed-container">
+                         <iframe
+                           src={block.data.embed}
+                           frameBorder="0"
+                           allowFullScreen
+                           className="w-full aspect-video rounded-lg"
+                         />
+                       </div>
+                     );
+                   
+                   case 'code':
+                     return (
+                       <pre key={index}>
+                         <code>{block.data.code}</code>
+                       </pre>
+                     );
+                   
+                   case 'delimiter':
+                     return <hr key={index} />;
+                   
+                   default:
+                     return (
+                       <div key={index} style={{border: '1px solid orange', padding: '10px', margin: '10px 0'}}>
+                         <p><strong>Unsupported block type:</strong> {block.type}</p>
+                         <pre>{JSON.stringify(block.data, null, 2)}</pre>
+                       </div>
+                     );
+                 }
+               })}
+             </div>
+          </>
         ) : (
           <p>No content available.</p>
         )}
