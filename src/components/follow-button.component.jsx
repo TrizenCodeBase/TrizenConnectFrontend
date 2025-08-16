@@ -91,7 +91,7 @@ const FollowButton = ({ authorId, authorUsername }) => {
             onClick={handleFollow}
             disabled={isLoading}
             className={
-                "px-2 sm:px-3 py-1 sm:py-1.5 rounded-full text-sm font-medium transition-all duration-200 min-h-[32px] sm:min-h-auto touch-manipulation " +
+                "px-2 py-1 rounded-full text-xs sm:text-sm font-medium transition-all duration-200 min-h-[28px] sm:min-h-[32px] touch-manipulation whitespace-nowrap flex-shrink-0 " +
                 (isFollowing 
                     ? "bg-black text-white hover:bg-dark-grey active:bg-dark-grey" 
                     : "border border-black text-black hover:bg-black hover:text-white active:bg-black active:text-white"

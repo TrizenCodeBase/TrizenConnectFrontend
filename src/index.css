@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Gelasio&family=Inter:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Gelasio&family=Inter:wght@400;500&family=Source+Serif+Pro:wght@400;600;700&display=swap');
 @import "@flaticon/flaticon-uicons/css/all/all";
 
 @tailwind base;
@@ -132,7 +132,7 @@
         font-family: sohne, "Helvetica Neue", Helvetica, Arial, sans-serif;
     }
 
-    /* Mobile responsive headings */
+    /* Mobile responsive headings and content */
     @media (max-width: 768px) {
         #textEditor h1, .blog-page-content h1 {
             font-size: 1.875rem;
@@ -158,6 +158,21 @@
             font-size: 1rem;
             line-height: 1.5;
         }
+
+        /* Mobile editor content uniformity */
+        #textEditor .ce-paragraph,
+        #textEditor .cdx-list__item,
+        #textEditor .ce-paragraph *,
+        #textEditor .cdx-list__item *,
+        .blog-page-content p,
+        .blog-page-content li,
+        .blog-page-content p *,
+        .blog-page-content li * {
+            font-size: 18px !important;
+            line-height: 1.6 !important;
+            font-family: source-serif-pro, Georgia, Cambria, "Times New Roman", Times, serif !important;
+            letter-spacing: -0.003em !important;
+        }
     }
 
     #textEditor h6, .blog-page-content h6 {
@@ -177,7 +192,11 @@
     }
 
     #textEditor *, .blog-page-content *{
-        @apply font-gelasio text-xl leading-8;
+        @apply font-gelasio;
+        font-size: 20px;
+        line-height: 1.58;
+        font-family: source-serif-pro, Georgia, Cambria, "Times New Roman", Times, serif;
+        letter-spacing: -0.003em;
     }
 
     #textEditor a, .blog-page-content a{
@@ -198,12 +217,13 @@
     }
 
     #textEditor .ce-paragraph {
-        @apply text-xl leading-8 font-gelasio;
+        @apply font-gelasio;
+        font-size: 20px;
+        line-height: 1.58;
         margin-bottom: 1.5rem;
         margin-top: 1rem;
         color: #292929;
-        font-family: charter, Georgia, Cambria, "Times New Roman", Times, serif;
-        line-height: 1.58;
+        font-family: source-serif-pro, Georgia, Cambria, "Times New Roman", Times, serif;
         letter-spacing: -0.003em;
     }
 
@@ -289,14 +309,15 @@
     }
 
     #textEditor .cdx-list__item {
-        @apply text-xl leading-8 font-gelasio;
+        @apply font-gelasio;
+        font-size: 20px;
+        line-height: 1.58;
         margin-bottom: 0.75rem;
         margin-left: 1.5rem;
         padding-left: 0.5rem;
         list-style-type: disc;
         color: #292929;
-        font-family: charter, Georgia, Cambria, "Times New Roman", Times, serif;
-        line-height: 1.58;
+        font-family: source-serif-pro, Georgia, Cambria, "Times New Roman", Times, serif;
         letter-spacing: -0.003em;
     }
 
@@ -434,17 +455,18 @@
     /* Medium-style prose styling for published blogs */
     .prose {
         color: #292929;
-        font-family: charter, Georgia, Cambria, "Times New Roman", Times, serif;
+        font-family: source-serif-pro, Georgia, Cambria, "Times New Roman", Times, serif;
         line-height: 1.58;
         letter-spacing: -0.003em;
     }
 
     .prose p {
-        @apply text-xl leading-8 mb-6 font-normal;
+        @apply mb-6 font-normal;
+        font-size: 20px;
         margin-top: 1.5rem;
         margin-bottom: 1.5rem;
         color: #292929;
-        font-family: charter, Georgia, Cambria, "Times New Roman", Times, serif;
+        font-family: source-serif-pro, Georgia, Cambria, "Times New Roman", Times, serif;
         line-height: 1.58;
         letter-spacing: -0.003em;
     }
@@ -508,12 +530,13 @@
     }
 
     .prose li {
-        @apply mb-2 text-xl leading-8;
+        @apply mb-2;
+        font-size: 20px;
+        line-height: 1.58;
         margin-left: 1.5rem;
         padding-left: 0.5rem;
         color: #292929;
-        font-family: charter, Georgia, Cambria, "Times New Roman", Times, serif;
-        line-height: 1.58;
+        font-family: source-serif-pro, Georgia, Cambria, "Times New Roman", Times, serif;
         letter-spacing: -0.003em;
     }
 
@@ -531,10 +554,33 @@
         text-decoration-color: #1a8917;
         text-underline-offset: 2px;
         transition: all 0.2s ease;
+        font-size: 20px;
+        font-family: source-serif-pro, Georgia, Cambria, "Times New Roman", Times, serif;
+        line-height: 1.58;
+        letter-spacing: -0.003em;
     }
 
     .prose a:hover {
         text-decoration-color: #292929;
+    }
+
+    .prose strong,
+    .prose b {
+        font-size: 20px !important;
+        font-family: source-serif-pro, Georgia, Cambria, "Times New Roman", Times, serif !important;
+        line-height: 1.58 !important;
+        letter-spacing: -0.003em !important;
+        font-weight: 700 !important;
+    }
+
+    /* Catch-all for any remaining text elements */
+    .prose p *,
+    .blog-page-content p *,
+    #textEditor .ce-paragraph * {
+        font-size: inherit !important;
+        font-family: inherit !important;
+        line-height: inherit !important;
+        letter-spacing: inherit !important;
     }
 
     .prose img {
@@ -564,8 +610,37 @@
             @apply leading-7;
         }
         
-        .prose p {
-            @apply text-base leading-7 mb-4;
+        .prose p,
+        .prose li,
+        .prose a,
+        .prose strong,
+        .prose b,
+        .prose p strong,
+        .prose p b,
+        .prose li strong,
+        .prose li b,
+        .prose p a,
+        .prose li a,
+        #textEditor .ce-paragraph,
+        #textEditor .cdx-list__item,
+        #textEditor .ce-paragraph a,
+        #textEditor .cdx-list__item a,
+        #textEditor .ce-paragraph strong,
+        #textEditor .ce-paragraph b,
+        #textEditor .cdx-list__item strong,
+        #textEditor .cdx-list__item b,
+        .blog-page-content p,
+        .blog-page-content strong,
+        .blog-page-content b,
+        .blog-page-content a,
+        .editorjs-renderer-blocks p,
+        .editorjs-renderer-blocks strong,
+        .editorjs-renderer-blocks b,
+        .editorjs-renderer-blocks a {
+            font-size: 18px !important;
+            line-height: 1.6 !important;
+            font-family: source-serif-pro, Georgia, Cambria, "Times New Roman", Times, serif !important;
+            letter-spacing: -0.003em !important;
             margin-top: 1rem;
             margin-bottom: 1rem;
         }
@@ -582,16 +657,64 @@
             @apply text-xl mb-3 mt-5;
         }
         
-        .prose li {
-            @apply text-base leading-7;
-        }
-        
         .prose blockquote {
-            @apply pl-4 my-4 text-base;
+            @apply pl-4 my-4;
+            font-size: 18px !important;
         }
         
         .prose * {
             @apply break-words;
+        }
+
+        /* Mobile catch-all for consistent inheritance */
+        .prose p *,
+        .blog-page-content p *,
+        #textEditor .ce-paragraph *,
+        .editorjs-renderer-blocks p * {
+            font-size: inherit !important;
+            font-family: inherit !important;
+            line-height: inherit !important;
+            letter-spacing: inherit !important;
+        }
+
+        /* Override any conflicting mobile styles */
+        .prose,
+        .blog-page-content,
+        #textEditor {
+            font-size: 18px !important;
+            font-family: source-serif-pro, Georgia, Cambria, "Times New Roman", Times, serif !important;
+            line-height: 1.6 !important;
+            letter-spacing: -0.003em !important;
+        }
+
+        /* Mobile follow button optimization */
+        button[title*="follow"] {
+            padding: 0.25rem 0.5rem !important;
+            font-size: 0.75rem !important;
+            min-height: 24px !important;
+            max-width: 80px !important;
+        }
+
+        /* Mobile author info layout optimization */
+        .max-w-4xl .flex.items-start > div:last-child > div:first-child {
+            flex-wrap: nowrap !important;
+            align-items: center !important;
+        }
+
+        .max-w-4xl .flex.items-start > div:last-child > div:first-child > span {
+            flex: 1 1 auto !important;
+            min-width: 0 !important;
+        }
+
+        /* Compact follow button for mobile */
+        @media (max-width: 480px) {
+            button[class*="rounded-full"][class*="font-medium"] {
+                padding: 0.2rem 0.4rem !important;
+                font-size: 0.7rem !important;
+                min-height: 22px !important;
+                max-width: 70px !important;
+                line-height: 1.2 !important;
+            }
         }
     }
 
@@ -1033,4 +1156,34 @@
 .editorjs-renderer-blocks pre,
 .editorjs-renderer-blocks code {
   font-size: 1.5rem;
+}
+
+/* Ensure consistent 20px font size across all devices for content */
+@media (min-width: 728px) {
+    .prose p, 
+    .prose li,
+    .prose a,
+    .prose strong,
+    .prose b,
+    .prose p strong,
+    .prose p b,
+    .prose li strong,
+    .prose li b,
+    #textEditor .ce-paragraph,
+    #textEditor .cdx-list__item,
+    #textEditor .ce-paragraph a,
+    #textEditor .cdx-list__item a,
+    #textEditor .cdx-link,
+    .blog-page-content .cdx-link,
+    .blog-page-content p,
+    .blog-page-content strong,
+    .blog-page-content b,
+    .editorjs-renderer-blocks p,
+    .editorjs-renderer-blocks strong,
+    .editorjs-renderer-blocks b {
+        font-size: 20px !important;
+        line-height: 1.58 !important;
+        font-family: source-serif-pro, Georgia, Cambria, "Times New Roman", Times, serif !important;
+        letter-spacing: -0.003em !important;
+    }
 }

@@ -53,7 +53,7 @@ import { useContext } from "react";
 import AnimationWrapper from "../common/page-animation";
 import { Link, useNavigate } from "react-router-dom";
 import { UserContext } from "../App";
-import { removeFromSession } from "../common/session";
+import { logOutUser } from "../common/session";
 
 const UserNavigationPanel = () => {
   const navigate = useNavigate();
@@ -65,14 +65,15 @@ const UserNavigationPanel = () => {
   
   const signOutUser = () => {
     console.log("signOutUser function called!");
-    // Clear session first
-    removeFromSession("user");
+    
+    // Clear both persistent and session storage
+    logOutUser();
     
     // Update state
     setUserAuth({ access_token: null, profile_img: null, username: null, fullname: null });
     
-    // Force a page reload to ensure clean state
-    window.location.href = "/";
+    // Navigate to home page
+    navigate("/");
   }
 
   return (

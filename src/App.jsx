@@ -39,7 +39,7 @@ import { Routes, Route } from "react-router-dom";
 import Navbar from "./components/navbar.component";
 import UserAuthForm from "./pages/userAuthForm.page";
 import { createContext, useEffect, useState } from "react";
-import { lookInSession } from "./common/session";
+import { lookInSession, isAuthValid } from "./common/session";
 import Editor from "./pages/editor.pages";
 import HomePage from "./pages/home.page";
 import SearchPage from "./pages/search.page";
@@ -57,11 +57,25 @@ const App = () => {
   const [userAuth, setUserAuth] = useState({});
 
   useEffect(() => {
-    let userInSession = lookInSession("user");
-
-    userInSession
-      ? setUserAuth(JSON.parse(userInSession))
-      : setUserAuth({ access_token: null, profile_img: null, username: null, fullname: null });
+    // Check if user has valid persistent authentication
+    if (isAuthValid()) {
+      let userInSession = lookInSession("user");
+      if (userInSession) {
+        try {
+          const userData = JSON.parse(userInSession);
+          console.log("Restoring user session:", userData.username);
+          setUserAuth(userData);
+        } catch (error) {
+          console.error("Error parsing user session data:", error);
+          setUserAuth({ access_token: null, profile_img: null, username: null, fullname: null });
+        }
+      } else {
+        setUserAuth({ access_token: null, profile_img: null, username: null, fullname: null });
+      }
+    } else {
+      console.log("No valid authentication found or session expired");
+      setUserAuth({ access_token: null, profile_img: null, username: null, fullname: null });
+    }
   }, []);
 
 

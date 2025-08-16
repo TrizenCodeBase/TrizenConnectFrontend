@@ -181,8 +181,8 @@ import { Link, Navigate } from "react-router-dom";
 import AnimationWrapper from "../common/page-animation";
 import { Toaster, toast } from "react-hot-toast";
 import axios from "axios";
-import { storeInSession } from "../common/session";
-import { useContext, useEffect } from "react";
+import { storeAuthData } from "../common/session";
+import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../App";
 import { authWithGoogle } from "../common/firebase";
 import { getAuth, getRedirectResult } from "firebase/auth";
@@ -193,6 +193,8 @@ const UserAuthForm = ({ type }) => {
     userAuth: { access_token },
     setUserAuth,
   } = useContext(UserContext);
+
+  const [rememberMe, setRememberMe] = useState(true); // Default to persistent login
 
   console.log(access_token);
 
@@ -230,7 +232,8 @@ const UserAuthForm = ({ type }) => {
       .post(serverDomain + serverRoute, formData)
       .then(({ data }) => {
         console.log("Server response:", data);
-        storeInSession("user", JSON.stringify(data));
+        // Store authentication data based on user preference
+        storeAuthData(data, rememberMe);
         setUserAuth(data);
         
         // Show success message for Google authentication
@@ -367,8 +370,23 @@ const UserAuthForm = ({ type }) => {
             icon="fi-rr-key"
           />
 
+          {type == "sign-in" && (
+            <div className="flex items-center gap-2 mt-6 mb-4">
+              <input
+                type="checkbox"
+                id="rememberMe"
+                checked={rememberMe}
+                onChange={(e) => setRememberMe(e.target.checked)}
+                className="w-4 h-4 text-purple bg-grey border-dark-grey rounded focus:ring-purple focus:ring-2"
+              />
+              <label htmlFor="rememberMe" className="text-sm text-dark-grey">
+                Keep me signed in (recommended)
+              </label>
+            </div>
+          )}
+
           <button
-            className="btn-dark center mt-14"
+            className="btn-dark center mt-6"
             type="submit"
             onClick={handleSubmit}
           >
