@@ -39,7 +39,7 @@ const BlogEditor = () => {
           minHeight: 200,
           logLevel: 'ERROR',
           autofocus: true,
-          inlineToolbar: ['marker', 'inlineCode'],
+          inlineToolbar: ['bold', 'italic', 'link', 'marker', 'inlineCode'],
           defaultBlock: 'paragraph',
           i18n: {
             messages: {

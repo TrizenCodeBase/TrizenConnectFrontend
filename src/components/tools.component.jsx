@@ -93,7 +93,7 @@ export const tools = {
   },
   header: {
     class: Header,
-    inlineToolbar: ['marker', 'inlineCode'],
+    inlineToolbar: ['bold', 'italic', 'marker', 'inlineCode'],
     config: {
       placeholder: "Heading",
       levels: [1, 2, 3, 4, 5, 6],
@@ -103,7 +103,7 @@ export const tools = {
   },
   heading1: {
     class: Header,
-    inlineToolbar: ['marker', 'inlineCode'],
+    inlineToolbar: ['bold', 'italic', 'marker', 'inlineCode'],
     config: {
       placeholder: "Heading 1",
       levels: [1],
@@ -112,7 +112,7 @@ export const tools = {
   },
   heading2: {
     class: Header,
-    inlineToolbar: ['marker', 'inlineCode'],
+    inlineToolbar: ['bold', 'italic', 'marker', 'inlineCode'],
     config: {
       placeholder: "Heading 2", 
       levels: [2],
@@ -121,7 +121,7 @@ export const tools = {
   },
   heading3: {
     class: Header,
-    inlineToolbar: ['marker', 'inlineCode'],
+    inlineToolbar: ['bold', 'italic', 'marker', 'inlineCode'],
     config: {
       placeholder: "Heading 3",
       levels: [3], 
@@ -130,7 +130,7 @@ export const tools = {
   },
   heading4: {
     class: Header,
-    inlineToolbar: ['marker', 'inlineCode'],
+    inlineToolbar: ['bold', 'italic', 'marker', 'inlineCode'],
     config: {
       placeholder: "Heading 4",
       levels: [4],
@@ -139,7 +139,7 @@ export const tools = {
   },
   heading5: {
     class: Header,
-    inlineToolbar: ['marker', 'inlineCode'],
+    inlineToolbar: ['bold', 'italic', 'marker', 'inlineCode'],
     config: {
       placeholder: "Heading 5",
       levels: [5],
@@ -148,7 +148,7 @@ export const tools = {
   },
   heading6: {
     class: Header,
-    inlineToolbar: ['marker', 'inlineCode'],
+    inlineToolbar: ['bold', 'italic', 'marker', 'inlineCode'],
     config: {
       placeholder: "Heading 6",
       levels: [6],
@@ -157,7 +157,7 @@ export const tools = {
   },
   quote: {
     class: Quote,
-    inlineToolbar: ['marker', 'inlineCode'],
+    inlineToolbar: ['bold', 'italic', 'marker', 'inlineCode'],
     config: {
       quotePlaceholder: 'Enter a quote',
       captionPlaceholder: 'Quote\'s author',

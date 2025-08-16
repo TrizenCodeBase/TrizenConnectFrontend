@@ -170,6 +170,37 @@
         padding: 0.25rem 0.5rem;
     }
 
+    /* Bold and italic text styling */
+    #textEditor b,
+    #textEditor strong,
+    .blog-page-content b,
+    .blog-page-content strong {
+        @apply font-bold;
+    }
+
+    #textEditor i,
+    #textEditor em,
+    .blog-page-content i,
+    .blog-page-content em {
+        @apply italic;
+    }
+
+    /* EditorJS inline formatting */
+    #textEditor .cdx-inline-bold,
+    .blog-page-content .cdx-inline-bold {
+        @apply font-bold;
+    }
+
+    #textEditor .cdx-inline-italic,
+    .blog-page-content .cdx-inline-italic {
+        @apply italic;
+    }
+
+    #textEditor .cdx-link,
+    .blog-page-content .cdx-link {
+        @apply text-purple underline hover:opacity-70 transition-opacity duration-200;
+    }
+
     #textEditor .cdx-list {
         padding-left: 1.5rem;
         margin-top: 1rem;
@@ -521,10 +552,52 @@
     /* Inline toolbar styling */
     .ce-inline-toolbar {
         @apply bg-white border border-grey rounded-lg shadow-lg;
+        z-index: 1000 !important;
+        padding: 8px;
     }
 
     .ce-inline-toolbar__buttons {
         gap: 0.25rem;
+        display: flex;
+        align-items: center;
+    }
+
+    /* Inline toolbar button styling */
+    .ce-inline-tool {
+        @apply p-2 rounded hover:bg-grey/30 transition-colors duration-200;
+        width: 32px;
+        height: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        border: none;
+        background: transparent;
+    }
+
+    .ce-inline-tool--active {
+        @apply bg-black text-white;
+    }
+
+    .ce-inline-tool:hover {
+        @apply bg-grey/50;
+    }
+
+    .ce-inline-tool--active:hover {
+        @apply bg-black/80;
+    }
+
+    /* Specific inline tool icons */
+    .ce-inline-tool--bold {
+        font-weight: bold;
+    }
+
+    .ce-inline-tool--italic {
+        font-style: italic;
+    }
+
+    .ce-inline-tool--link {
+        text-decoration: underline;
     }
 
     /* Block tunes styling */
