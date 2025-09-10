@@ -1,6 +1,6 @@
 import { useContext, useState } from "react";
 import { Link, Outlet, useNavigate } from "react-router-dom";
-import Logo from "../imgs/logo2.png";
+import Logo from "../imgs/logo3.png";
 import { UserContext } from "../App";
 import UserNavigationPanel from "./user-navigation.component";
 
@@ -36,7 +36,7 @@ const Navbar = () => {
   return (
     <>
       <nav className="navbar">
-        <Link to="/" className="flex-none w-16">
+        <Link to="/" className="flex-none w-32">
           <img src={Logo} className="w-full h-auto object-contain" />
         </Link>
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import PageNotFoundImg from "../imgs/404.png"
 import { Link } from 'react-router-dom';
-import FullLogo from "../imgs/logo2.png"
+import FullLogo from "../imgs/logo3.png"
 
 const PageNotFound = () => {
     return (
